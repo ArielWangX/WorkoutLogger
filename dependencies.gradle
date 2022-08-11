@@ -1,0 +1,85 @@
+ext {
+    // AndroidX
+    appCompat = "1.6.0-alpha05"
+    activityCompose = "1.5.0"
+    compose = "1.2.0-rc03"
+    composeCompiler = "1.2.0"
+    composeConstraintLayout = "1.0.1"
+    composeMaterial3 = "1.0.0-alpha14"
+    coreKtx = "1.8.0"
+    coreSplashscreen = "1.0.0-rc01"
+    hiltNavigationCompose = "1.0.0"
+    hiltWork = "1.0.0"
+    hiltCompiler = "1.0.0"
+    lifecycleRuntimeKtx = "2.5.0"
+    lifecycleViewmodelCompose = "2.5.0"
+    navigation = "2.5.0"
+    window = "1.0.0"
+
+    // Google
+    accompanist = "0.23.1"
+    material = "1.7.0-alpha03"
+    hilt = "2.43.2"
+
+    //Test
+    junit = "4.13.2"
+    testRunner = "1.4.0"
+    turbine = "0.8.0"
+
+    //Multi-thread
+    kotlinCoroutines = "1.6.4"
+
+    // Logging
+    timber = "5.0.1"
+
+    AndroidXDependencies = [
+            activityCompose          : "androidx.activity:activity-compose:$activityCompose",
+            appCompat                : "androidx.appcompat:appcompat:$appCompat",
+            composeCompiler          : "androidx.compose.compiler:compiler:$composeCompiler",
+            composeConstraintLayout  : "androidx.constraintlayout:constraintlayout-compose:$composeConstraintLayout",
+            composeLifecycleRuntime  : "androidx.compose.runtime:runtime-livedata:$compose",
+            composeMaterial          : "androidx.compose.material:material:$compose",
+            composeMaterial3         : "androidx.compose.material3:material3:$composeMaterial3",
+            composeMaterialIcons     : "androidx.compose.material:material-icons-extended:$compose",
+            composeUi                : "androidx.compose.ui:ui:$compose",
+            composeUiTooling         : "androidx.compose.ui:ui-tooling:$compose",
+            composeUiUtil            : "androidx.compose.ui:ui-util:$compose",
+            coreKtx                  : "androidx.core:core-ktx:$coreKtx",
+            coreSplashscreen         : "androidx.core:core-splashscreen:$coreSplashscreen",
+            hiltCompiler             : "androidx.hilt:hilt-compiler:$hiltCompiler",
+            hiltNavigationCompose    : "androidx.hilt:hilt-navigation-compose:$hiltNavigationCompose",
+            hiltWork                 : "androidx.hilt:hilt-work:$hiltWork",
+            lifecycleRuntimeKtx      :
+                    "androidx.lifecycle:lifecycle-runtime-ktx:$lifecycleRuntimeKtx",
+            lifecycleViewmodelCompose:
+                    "androidx.lifecycle:lifecycle-viewmodel-compose:$lifecycleViewmodelCompose",
+            navigationRuntimeKtx     :
+                    "androidx.navigation:navigation-runtime-ktx:$navigation",
+            navigationCompose        :
+                    "androidx.navigation:navigation-compose:$navigation",
+            window                   : "androidx.window:window:$window",
+    ]
+
+    GoogleDependencies = [
+            accompanistInsets            : "com.google.accompanist:accompanist-insets:$accompanist",
+            accompanistInsetsUi          : "com.google.accompanist:accompanist-insets-ui:$accompanist",
+            accompanistNavigationMaterial: "com.google.accompanist:accompanist-navigation-material:$accompanist",
+            accompanistPager             : "com.google.accompanist:accompanist-pager:$accompanist",
+            accompanistPagerIndicators   : "com.google.accompanist:accompanist-pager-indicators:$accompanist",
+            accompanistPlaceholder       : "com.google.accompanist:accompanist-placeholder-material:$accompanist",
+            accompanistSystemUiController: "com.google.accompanist:accompanist-systemuicontroller:$accompanist",
+            hiltAndroid                  : "com.google.dagger:hilt-android:$hilt",
+            hiltAndroidCompiler          : "com.google.dagger:hilt-android-compiler:$hilt",
+            material                     : "com.google.android.material:material:$material"
+    ]
+
+    TestDependencies = [
+            junit     : "junit:junit:$junit",
+            testRunner: "androidx.test:runner:$testRunner",
+            turbine   : "app.cash.turbine:turbine:$turbine"
+    ]
+
+    OtherDependencies = [
+            timber: "com.jakewharton.timber:timber:$timber"
+    ]
+}
