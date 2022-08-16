@@ -7,4 +7,25 @@
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+
+
+    <color name="bronte_mint">#B2FCE4</color>
+    <color name="bronte_mint_press">#4EF8C1</color>
+    <color name="bronte_orca">#3375C9</color>
+    <color name="bronte_orca_press">#1E4576</color>
+    <color name="bronte_orca_pastel">#EFF4FB</color>
+    <color name="bronte_fire">#F5643B</color>
+    <color name="bronte_fire_enabled">#CC3300</color>
+    <color name="bronte_fire_5">#05CC3300</color>
+    <color name="bronte_black">#000000</color>
+    <color name="bronte_white">#FFFFFFFF</color>
+    <color name="bronte_gray_40">#666666</color>
+    <color name="bronte_gray_60">#999999</color>
+    <color name="bronte_gray_80">#CCCCCC</color>
+    <color name="bronte_gray_90">#E5E5E5</color>
+    <color name="bronte_gray_96">#F5F5F5</color>
+    <color name="bronte_lemon_50">#FFE900</color>
+    <color name="bronte_lemon_dark">#FFB600</color>
+
+    <color name="black_40">#66000000</color>
 </resources>
