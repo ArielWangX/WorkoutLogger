@@ -2,6 +2,7 @@ package com.arielwang.workoutlogger
 
 import android.os.Bundle
 import android.view.animation.AccelerateInterpolator
+import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
@@ -29,7 +30,7 @@ import javax.inject.Inject
 
 @OptIn(ExperimentalMaterialNavigationApi::class)
 @AndroidEntryPoint
-internal class MainActivity : AppCompatActivity() {
+internal class MainActivity : ComponentActivity() {
 
   @Inject
   lateinit var navigator: Navigator
@@ -76,7 +77,7 @@ internal class MainActivity : AppCompatActivity() {
         SideEffect {
           // need to manually set windowBackground as postSplashScreenTheme is not properly
           // applied on some devices
-          window?.setBackgroundDrawableResource(R.color.bronte_white)
+          window?.setBackgroundDrawableResource(R.color.background)
           systemUiController.setSystemBarsColor(
             color = Color.Transparent,
             darkIcons = useDarkIcons
