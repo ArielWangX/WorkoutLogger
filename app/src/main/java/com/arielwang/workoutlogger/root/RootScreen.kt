@@ -4,6 +4,8 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.rememberNavController
+import com.arielwang.workoutlogger.features.home.ui.screen.HomeDestination
+import com.arielwang.workoutlogger.features.home.ui.screen.addHomeScreen
 import com.arielwang.workoutlogger.features.landing.ui.screen.LandingDestination
 import com.arielwang.workoutlogger.features.landing.ui.screen.addLandingScreen
 import com.google.accompanist.navigation.material.BottomSheetNavigator
@@ -19,8 +21,9 @@ fun RootScreen(
   NavHost(
     navController,
     route = RootDestination.route(),
-    startDestination = LandingDestination.route()
+    startDestination = HomeDestination.route()
   ) {
+    addHomeScreen()
     addLandingScreen()
   }
 }
