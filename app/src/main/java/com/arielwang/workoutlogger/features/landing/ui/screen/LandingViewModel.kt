@@ -16,6 +16,7 @@ object LandingView {
 
   sealed class Action {
     object GoToNextPage : Action()
+    object Next : Action()
   }
 }
 
@@ -23,7 +24,6 @@ object LandingView {
 class LandingViewModel @Inject constructor(
   private val navigator: Navigator
 ) : ViewModel() {
-
 
   private var viewState = LandingView.State()
 
@@ -41,6 +41,7 @@ class LandingViewModel @Inject constructor(
   fun onUiAction(action: LandingView.Action) {
     when (action) {
       LandingView.Action.GoToNextPage -> {}
+      LandingView.Action.Next -> {}
     }
   }
 
