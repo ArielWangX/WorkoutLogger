@@ -55,7 +55,6 @@ dependencies {
     implementation rootProject.ext.AndroidXDependencies.composeConstraintLayout
     implementation rootProject.ext.AndroidXDependencies.composeLifecycleRuntime
     implementation rootProject.ext.AndroidXDependencies.composeMaterial
-    implementation rootProject.ext.AndroidXDependencies.composeMaterial3
     implementation rootProject.ext.AndroidXDependencies.composeMaterialIcons
     implementation rootProject.ext.AndroidXDependencies.composeUi
     implementation rootProject.ext.AndroidXDependencies.composeUiTooling
@@ -70,6 +69,7 @@ dependencies {
     implementation rootProject.ext.AndroidXDependencies.navigationRuntimeKtx
     implementation rootProject.ext.AndroidXDependencies.navigationCompose
     implementation rootProject.ext.AndroidXDependencies.window
+    implementation "androidx.constraintlayout:constraintlayout:2.1.4"
 
     // Google
     implementation rootProject.ext.GoogleDependencies.accompanistInsets
