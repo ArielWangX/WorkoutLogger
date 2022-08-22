@@ -1,9 +1,9 @@
 package com.arielwang.workoutlogger.features.landing.ui.screen
 
 import androidx.compose.foundation.layout.*
-import androidx.compose.material3.Button
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
+import androidx.compose.material.Button
+import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -25,7 +25,7 @@ fun LandingScreen(
 
     Text(
       text = stringResource(id = R.string.LandingScreen_title, uiState.currentTime),
-      style = MaterialTheme.typography.titleSmall
+      style = MaterialTheme.typography.subtitle2
     )
 
     Button(

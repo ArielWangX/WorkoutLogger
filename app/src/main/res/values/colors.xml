@@ -2,5 +2,5 @@
 <resources>
     <color name="background">#ffffff</color>
     <color name="status_bar">#c20029</color>
-    <color name="button_color">
+    <color name="button_color">#2196F3</color>
 </resources>
