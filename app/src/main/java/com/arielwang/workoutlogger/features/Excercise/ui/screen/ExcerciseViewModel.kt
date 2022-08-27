@@ -1,4 +1,4 @@
-package com.arielwang.workoutlogger.features.home.ui.screen
+package com.arielwang.workoutlogger.features.Excercise.ui.screen
 
 import androidx.lifecycle.ViewModel
 import com.arielwang.workoutlogger.features.landing.ui.screen.LandingDestination
@@ -8,9 +8,9 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import javax.inject.Inject
 
-object HomeView {
+object ExcerciseView {
     data class State(
-        val workoutForToday : Boolean = false
+        val workoutForToday: Boolean = false
     )
 
     sealed class Action {
@@ -19,23 +19,18 @@ object HomeView {
 }
 
 @HiltViewModel
-class HomeViewModel @Inject constructor(
+class ExcerciseViewModel @Inject constructor(
     private val navigator: Navigator
 ) : ViewModel() {
 
-    private var viewState = HomeView.State()
+    private var viewState = ExcerciseView.State()
 
-    private val _uiState = MutableStateFlow(viewState)
-    val uiState: StateFlow<HomeView.State> = _uiState
+    private val  _uiState = MutableStateFlow(viewState)
+    val uiState: StateFlow<ExcerciseView.State> = _uiState
 
-    fun onUiAction(action: HomeView.Action) {
+    fun onUiAction(action: ExcerciseView.Action) {
         when(action) {
-            HomeView.Action.GoToNextPage -> {navigator.navigate(LandingDestination.route())}
+            ExcerciseView.Action.GoToNextPage -> {navigator.navigate(LandingDestination.route())}
         }
     }
-
-    private fun emitViewState() {
-        _uiState.value = viewState
-    }
-
 }
