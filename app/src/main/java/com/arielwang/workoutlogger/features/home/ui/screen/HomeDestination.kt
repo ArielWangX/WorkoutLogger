@@ -21,7 +21,7 @@ internal fun NavGraphBuilder.addHomeScreen() {
             screenViewModel<HomeViewModel>().let { viewModel ->
                 val state: HomeView.State by viewModel.uiState.collectAsState()
 
-                HomeScreen() //{ action -> viewModel.onUiAction(action)}
+                HomeScreen(state) { action -> viewModel.onUiAction(action) }
             }
         }
     }

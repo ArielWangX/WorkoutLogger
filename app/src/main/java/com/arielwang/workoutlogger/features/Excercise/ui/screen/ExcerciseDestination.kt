@@ -22,7 +22,7 @@ internal fun NavGraphBuilder.addExcerciseScreen() {
             screenViewModel<ExcerciseViewModel>().let { viewModel ->
                 val state: ExcerciseView.State by viewModel.uiState.collectAsState()
 
-                ExcerciseScreen() // {action -> viewModel.onUiAction}
+                ExcerciseScreen(state) { action -> viewModel.onUiAction(action)}
             }
         }
     }

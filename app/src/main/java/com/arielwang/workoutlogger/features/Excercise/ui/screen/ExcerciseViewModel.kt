@@ -1,6 +1,7 @@
 package com.arielwang.workoutlogger.features.Excercise.ui.screen
 
 import androidx.lifecycle.ViewModel
+import com.arielwang.workoutlogger.R
 import com.arielwang.workoutlogger.features.landing.ui.screen.LandingDestination
 import com.arielwang.workoutlogger.navigate.Navigator
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -33,4 +34,16 @@ class ExcerciseViewModel @Inject constructor(
             ExcerciseView.Action.GoToNextPage -> {navigator.navigate(LandingDestination.route())}
         }
     }
+
+    private fun emitViewState() {
+        _uiState.value = viewState
+    }
 }
+
+ val excerciseCardData = listOf(
+    R.string.ExcerciseCard_abs,
+    R.string.ExcerciseCard_back,
+    R.string.ExcerciseCard_biceps,
+    R.string.ExcerciseCard_cardio,
+    R.string.ExcerciseCard_chest
+)

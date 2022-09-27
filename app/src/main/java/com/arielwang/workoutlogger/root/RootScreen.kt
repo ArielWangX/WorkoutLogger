@@ -4,6 +4,7 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.rememberNavController
+import com.arielwang.workoutlogger.features.Excercise.ui.screen.addExcerciseScreen
 import com.arielwang.workoutlogger.features.home.ui.screen.HomeDestination
 import com.arielwang.workoutlogger.features.home.ui.screen.addHomeScreen
 import com.arielwang.workoutlogger.features.landing.ui.screen.LandingDestination
@@ -25,5 +26,6 @@ fun RootScreen(
   ) {
     addHomeScreen()
     addLandingScreen()
+    addExcerciseScreen()
   }
 }

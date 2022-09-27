@@ -27,7 +27,10 @@ private val DarkColors = darkColors(
 )
 
 @Composable
-fun WorkoutLoggerTheme(darkTheme: Boolean = isSystemInDarkTheme(), content: @Composable () -> Unit) {
+fun WorkoutLoggerTheme(
+  darkTheme: Boolean = isSystemInDarkTheme(),
+  content: @Composable () -> Unit
+) {
   MaterialTheme (
     colors = if (darkTheme) DarkColors else LightColors,
     typography = WorkoutLoggerTypography,
