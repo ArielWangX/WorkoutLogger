@@ -1,32 +1,31 @@
 package com.arielwang.workoutlogger.features.home.ui.screen
 
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Button
 import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.saveable.rememberSaveable
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
-import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
 import com.arielwang.workoutlogger.R
 
 
 @Composable
-fun HomeScreen() {
-    HomeScreenConstraintLayout()
+fun HomeScreen(
+    uiState: HomeView.State = HomeView.State(),
+    onAction: (HomeView.Action) -> Unit = {}
+) {
+    HomeScreenConstraintLayout(uiState, onAction)
 }
 
 @Composable
-fun HomeScreenConstraintLayout() {
+fun HomeScreenConstraintLayout(
+    uiState: HomeView.State = HomeView.State(),
+    onAction: (HomeView.Action) -> Unit = {}
+) {
     ConstraintLayout(
         modifier = Modifier
             .fillMaxSize()
@@ -43,9 +42,11 @@ fun HomeScreenConstraintLayout() {
         }
         )
 
-        HomeScreenButton(Modifier.constrainAs(button) {
-            bottom.linkTo(parent.bottom)
-        }
+        HomeScreenButton(
+            buttonConstraintLayout = Modifier.constrainAs(button) {
+                bottom.linkTo(parent.bottom)
+            },
+            onAction = onAction
         )
 
     }
@@ -63,17 +64,21 @@ fun HomeScreenContent(textConstraintLayout: Modifier) {
 }
 
 @Composable
-fun HomeScreenButton(buttonConstrintLayout: Modifier) {
+fun HomeScreenButton(
+    buttonConstraintLayout: Modifier,
+    onAction: (HomeView.Action) -> Unit = {}
+) {
 
     Button(
-        modifier = buttonConstrintLayout
+        modifier = buttonConstraintLayout
             .fillMaxWidth()
             .padding(vertical = 15.dp),
         shape = MaterialTheme.shapes.large,
         colors = ButtonDefaults.buttonColors(
             backgroundColor = MaterialTheme.colors.primary
         ),
-        onClick = { HomeView.Action.GoToNextPage }) {
+        onClick = { onAction(HomeView.Action.GoToNextPage) }
+    ) {
         Text(
             text = stringResource(id = R.string.HomeScreen_buttonContent),
             modifier = Modifier.padding(vertical = 10.dp)
