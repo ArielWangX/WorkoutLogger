@@ -21,7 +21,7 @@ private val DarkColors = darkColors(
   primary = Red300,
   primaryVariant = Red700,
   onPrimary = Color.Black,
-  secondary = Red300,
+  secondary = Color.White,
   onSecondary = Color.Black,
   error = Red200
 )
