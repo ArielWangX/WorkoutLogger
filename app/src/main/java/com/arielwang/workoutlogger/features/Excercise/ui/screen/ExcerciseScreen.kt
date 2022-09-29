@@ -5,6 +5,7 @@ import androidx.compose.animation.animateContentSize
 import androidx.compose.animation.core.Spring
 import androidx.compose.animation.core.spring
 import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -22,15 +23,16 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.arielwang.workoutlogger.R
 import com.arielwang.workoutlogger.features.home.ui.screen.HomeView
+import com.arielwang.workoutlogger.features.landing.ui.screen.LandingView
 import kotlin.math.abs
 
 @Composable
 fun ExcerciseCard(
-    @StringRes text: Int,
+    text: String,
+    isSelected: Boolean,
+    onAction: (ExcerciseView.Action) -> Unit,
     modifier: Modifier = Modifier
 ) {
-    var checked by remember { mutableStateOf(false) }
-
     Card(
         border = BorderStroke(2.dp, Color.LightGray),
         backgroundColor = MaterialTheme.colors.onPrimary,
@@ -42,33 +44,25 @@ fun ExcerciseCard(
             modifier = Modifier
                 .padding(12.dp)
                 .fillMaxWidth()
+                .clickable { onAction(ExcerciseView.Action.OnCardClicked(text)) }
         ) {
             Text(
-                text = stringResource(text),
+                text = text,
                 color = MaterialTheme.colors.secondary,
                 style = MaterialTheme.typography.h6,
                 modifier = Modifier.padding(horizontal = 16.dp)
             )
-            
+
             Spacer(modifier = Modifier.weight(1f))
 
-            IconButton(onClick = { checked = !checked }) {
-                if (checked) {
-                    Icon(
-                        imageVector = Icons.Default.Check,
-                        contentDescription = null
-                    )
-                }
-            }
-        }
-    }
-}
+            if (isSelected) {
+                Icon(
+                    imageVector = Icons.Default.Check,
+                    contentDescription = null
+                )
+                //change color
 
-@Composable
-fun ExcerciseCardCollection(modifier: Modifier = Modifier) {
-    LazyColumn(modifier = Modifier) {
-        items(excerciseCardData) { item ->
-            ExcerciseCard(text = item)
+            }
         }
     }
 }
@@ -98,8 +92,11 @@ fun ExcerciseScreenButton(
 @Composable
 fun ExcerciseScreen(
     uiState: ExcerciseView.State = ExcerciseView.State(),
-    onAction: (ExcerciseView.Action) -> Unit = {}
+    onAction: (ExcerciseView.Action) -> Unit,
 ) {
-    ExcerciseCard(text = R.string.ExcerciseCard_back)
+    LazyColumn(modifier = Modifier) {
+        uiState.cardList.forEach {
+            item { ExcerciseCard(text = it, isSelected = uiState.selectedCard == it, onAction = onAction) }
+        }
+    }
 }
-
