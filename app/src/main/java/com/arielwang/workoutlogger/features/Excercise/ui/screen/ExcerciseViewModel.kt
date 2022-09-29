@@ -11,10 +11,12 @@ import javax.inject.Inject
 
 object ExcerciseView {
     data class State(
-        val workoutForToday: Boolean = false
+        val cardList: List<String> = emptyList(),
+        val selectedCard: String = "",
     )
 
     sealed class Action {
+        data class OnCardClicked(val text: String) : Action()
         object GoToNextPage : Action()
     }
 }
@@ -29,9 +31,18 @@ class ExcerciseViewModel @Inject constructor(
     private val  _uiState = MutableStateFlow(viewState)
     val uiState: StateFlow<ExcerciseView.State> = _uiState
 
+    init {
+        viewState = viewState.copy(cardList = listOf("Back", "Leg"))
+        emitViewState()
+    }
+
     fun onUiAction(action: ExcerciseView.Action) {
         when(action) {
-            ExcerciseView.Action.GoToNextPage -> {navigator.navigate(LandingDestination.route())}
+            is ExcerciseView.Action.GoToNextPage -> {navigator.navigate(LandingDestination.route())}
+            is ExcerciseView.Action.OnCardClicked -> {
+                viewState = viewState.copy(selectedCard = action.text)
+                emitViewState()
+            }
         }
     }
 
