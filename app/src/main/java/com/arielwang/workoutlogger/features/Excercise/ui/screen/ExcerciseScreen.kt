@@ -26,9 +26,6 @@ import com.arielwang.workoutlogger.features.home.ui.screen.HomeView
 import com.arielwang.workoutlogger.features.landing.ui.screen.LandingView
 import kotlin.math.abs
 
-// add multiple clicked feature
-// add unclicked feature
-
 @Composable
 fun ExcerciseCard(
     text: String,
@@ -104,7 +101,7 @@ fun ExcerciseScreen(
 ) {
     LazyColumn(modifier = Modifier) {
         uiState.cardList.forEach {
-            item { ExcerciseCard(text = it, isSelected = uiState.selectedCard.contains(it), onAction = onAction) }
+            item { ExcerciseCard(text = it.text, isSelected = it.isSelected, onAction = onAction) }
         }
     }
 }
