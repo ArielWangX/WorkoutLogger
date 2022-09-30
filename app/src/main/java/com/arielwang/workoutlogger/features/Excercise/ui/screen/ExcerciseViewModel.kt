@@ -12,7 +12,7 @@ import javax.inject.Inject
 object ExcerciseView {
     data class State(
         val cardList: List<String> = emptyList(),
-        val selectedCard: String = "",
+        val selectedCard: List<String> = emptyList(),
     )
 
     sealed class Action {
@@ -32,7 +32,7 @@ class ExcerciseViewModel @Inject constructor(
     val uiState: StateFlow<ExcerciseView.State> = _uiState
 
     init {
-        viewState = viewState.copy(cardList = listOf("Back", "Leg"))
+        viewState = viewState.copy(cardList = listOf("abs", "Back", "Biceps", "Cardio", "Chest"))
         emitViewState()
     }
 
@@ -40,7 +40,7 @@ class ExcerciseViewModel @Inject constructor(
         when(action) {
             is ExcerciseView.Action.GoToNextPage -> {navigator.navigate(LandingDestination.route())}
             is ExcerciseView.Action.OnCardClicked -> {
-                viewState = viewState.copy(selectedCard = action.text)
+                viewState = viewState.copy(selectedCard = listOf(action.text))
                 emitViewState()
             }
         }

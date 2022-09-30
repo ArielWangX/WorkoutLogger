@@ -8,12 +8,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
 
 private val LightColors = lightColors(
-  primary = Blue700,
-  primaryVariant = Red900,
+  primary = Blue700,  // button color
+  primaryVariant = Green700,  // selected color
   onPrimary = Color.White,
-  secondary = Black500,
+  secondary = Black500, // text color
   secondaryVariant = Red900,
-  onSecondary = Color.White,
+  onSecondary = LightGrey700,   //border color
   error = Red800
 )
 
