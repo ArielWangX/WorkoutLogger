@@ -26,6 +26,9 @@ import com.arielwang.workoutlogger.features.home.ui.screen.HomeView
 import com.arielwang.workoutlogger.features.landing.ui.screen.LandingView
 import kotlin.math.abs
 
+// add multiple clicked feature
+// add unclicked feature
+
 @Composable
 fun ExcerciseCard(
     text: String,
@@ -34,7 +37,13 @@ fun ExcerciseCard(
     modifier: Modifier = Modifier
 ) {
     Card(
-        border = BorderStroke(2.dp, Color.LightGray),
+        border = BorderStroke(
+            2.dp,
+            if (isSelected)
+                MaterialTheme.colors.primaryVariant
+            else
+                MaterialTheme.colors.onSecondary
+        ),
         backgroundColor = MaterialTheme.colors.onPrimary,
         shape = MaterialTheme.shapes.large,
         modifier = Modifier.padding(20.dp)
@@ -58,10 +67,9 @@ fun ExcerciseCard(
             if (isSelected) {
                 Icon(
                     imageVector = Icons.Default.Check,
+                    tint = MaterialTheme.colors.primaryVariant,
                     contentDescription = null
                 )
-                //change color
-
             }
         }
     }
@@ -96,7 +104,7 @@ fun ExcerciseScreen(
 ) {
     LazyColumn(modifier = Modifier) {
         uiState.cardList.forEach {
-            item { ExcerciseCard(text = it, isSelected = uiState.selectedCard == it, onAction = onAction) }
+            item { ExcerciseCard(text = it, isSelected = uiState.selectedCard.contains(it), onAction = onAction) }
         }
     }
 }
