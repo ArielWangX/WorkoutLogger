@@ -49,15 +49,29 @@ class ExcerciseViewModel @Inject constructor(
                 navigator.navigate(LandingDestination.route())
             }
             is ExcerciseView.Action.OnCardClicked -> {
-                viewState = viewState.copy(
-                    cardList = viewState.cardList.map {
-                        if (it.text == action.text) {
-                            return@map it.copy(isSelected = !it.isSelected)
-                        } else {
-                            return@map it
-                        }
+                val updatedCardList = mutableListOf<Card>()
+
+                viewState.cardList.forEach {
+                    if (action.text == it.text) {
+                        updatedCardList.add(it.copy(isSelected = !it.isSelected))
+                    } else {
+                        updatedCardList.add(it)
                     }
+                }
+
+                viewState = viewState.copy(
+                    cardList = updatedCardList
                 )
+//  different approach
+//                viewState = viewState.copy(
+//                    cardList = viewState.cardList.map {
+//                        if (it.text == action.text) {
+//                            return@map it.copy(isSelected = !it.isSelected)
+//                        } else {
+//                            return@map it
+//                        }
+//                    }
+//                )
                 emitViewState()
             }
         }
