@@ -1,8 +1,7 @@
 package com.arielwang.workoutlogger.features.home.ui.screen
 
 import androidx.lifecycle.ViewModel
-import com.arielwang.workoutlogger.features.Excercise.ui.screen.ExcerciseDestination
-import com.arielwang.workoutlogger.features.landing.ui.screen.LandingDestination
+import com.arielwang.workoutlogger.features.exercise.ui.screen.ExerciseDestination
 import com.arielwang.workoutlogger.navigate.Navigator
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -31,7 +30,7 @@ class HomeViewModel @Inject constructor(
 
     fun onUiAction(action: HomeView.Action) {
         when(action) {
-            HomeView.Action.GoToNextPage -> navigator.navigate(ExcerciseDestination.route())
+            HomeView.Action.GoToNextPage -> navigator.navigate(ExerciseDestination.route())
         }
     }
 
