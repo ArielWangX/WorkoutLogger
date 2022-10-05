@@ -66,22 +66,6 @@ class ExerciseViewModel @Inject constructor(
                         }
                     }
                 )
-
-//  different approach
-//                val updatedCardList = mutableListOf<Card>()
-//
-//                viewState.cardList.forEach {
-//                    if (action.text == it.text) {
-//                        updatedCardList.add(it.copy(isSelected = !it.isSelected))
-//                    } else {
-//                        updatedCardList.add(it)
-//                    }
-//                }
-//
-//                viewState = viewState.copy(
-//                    cardList = updatedCardList
-//                )
-
                 emitViewState()
             }
         }

@@ -75,13 +75,13 @@ fun ExerciseCardList(
     LazyColumn(
         modifier = cardListConstrainLayout
     ) {
-        item {Spacer(modifier = Modifier.height(30.dp))}
+        item {Spacer(modifier = Modifier.height(32.dp))}
 
         uiState.cardList.forEach {
             item { ExerciseCard(text = it.text, isSelected = it.isSelected, onAction = onAction) }
         }
 
-        item {Spacer(modifier = Modifier.height(20.dp))}
+        item {Spacer(modifier = Modifier.height(24.dp))}
     }
 }
 
@@ -95,28 +95,28 @@ fun ExerciseCard(
         border = BorderStroke(
             2.dp,
             if (isSelected)
-                MaterialTheme.colors.primaryVariant
+                MaterialTheme.colors.secondary
             else
-                MaterialTheme.colors.onSecondary
+                MaterialTheme.colors.primaryVariant
         ),
         backgroundColor = MaterialTheme.colors.onPrimary,
         shape = MaterialTheme.shapes.large,
         modifier = Modifier
-            .padding(vertical = 20.dp)
+            .padding(vertical = 16.dp)
             .fillMaxWidth()
     ) {
         Row(
             verticalAlignment = Alignment.CenterVertically,
             modifier = Modifier
-                .padding(12.dp)
+                .padding(8.dp)
                 .fillMaxWidth()
                 .clickable { onAction(ExerciseView.Action.OnCardClicked(text)) }
         ) {
             Text(
                 text = text,
-                color = MaterialTheme.colors.secondary,
+                color = MaterialTheme.colors.onSecondary,
                 style = MaterialTheme.typography.h6,
-                modifier = Modifier.padding(horizontal = 16.dp)
+                modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp)
             )
 
             Spacer(modifier = Modifier.weight(1f))
@@ -124,7 +124,7 @@ fun ExerciseCard(
             if (isSelected) {
                 Icon(
                     imageVector = Icons.Default.Check,
-                    tint = MaterialTheme.colors.primaryVariant,
+                    tint = MaterialTheme.colors.secondary,
                     contentDescription = null
                 )
             }
@@ -141,7 +141,7 @@ fun ExerciseScreenButton(
     Button(
         modifier = buttonConstraintLayout
             .fillMaxWidth()
-            .padding(vertical = 15.dp),
+            .padding(vertical = 16.dp),
         shape = MaterialTheme.shapes.large,
         colors = ButtonDefaults.buttonColors(
             backgroundColor = MaterialTheme.colors.primary
@@ -150,7 +150,8 @@ fun ExerciseScreenButton(
     ) {
         Text(
             text = stringResource(id = R.string.ExerciseScreen_buttonContent),
-            modifier = Modifier.padding(vertical = 10.dp)
+            color = MaterialTheme.colors.onPrimary,
+            modifier = Modifier.padding(vertical = 8.dp)
         )
     }
 }

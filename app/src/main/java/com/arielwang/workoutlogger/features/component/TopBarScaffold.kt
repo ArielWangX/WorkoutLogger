@@ -18,7 +18,7 @@ fun ScaffoldWithTopBar(
     @StringRes iconContentDescription: Int,
     onAction: () -> Unit = {},
     modifier: Modifier,
-    content: @Composable () -> Unit
+    content: @Composable (PaddingValues) -> Unit
 ) {
     Scaffold(
         modifier = modifier,
@@ -33,23 +33,12 @@ fun ScaffoldWithTopBar(
                     }
                 },
                 backgroundColor = MaterialTheme.colors.onPrimary,
-                contentColor = MaterialTheme.colors.secondary,
-                elevation = 10.dp
+                contentColor = MaterialTheme.colors.onSecondary,
+                elevation = 8.dp
             )
         },
 
-        content = {
-            Column(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .background(color = MaterialTheme.colors.onPrimary)
-                    .padding(it),
-                verticalArrangement = Arrangement.Center,
-                horizontalAlignment = Alignment.CenterHorizontally
-            ) {
-                content()
-            }
-        }
+        content = content
     )
 }
 
