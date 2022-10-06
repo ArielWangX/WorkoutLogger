@@ -59,7 +59,7 @@ fun HomeScreenContent(textConstraintLayout: Modifier) {
         text = stringResource(id = R.string.HomeScreen_title),
         modifier = textConstraintLayout,
         style = MaterialTheme.typography.subtitle2,
-        color = MaterialTheme.colors.secondary
+        color = MaterialTheme.colors.onSecondary
     )
 }
 
@@ -72,7 +72,7 @@ fun HomeScreenButton(
     Button(
         modifier = buttonConstraintLayout
             .fillMaxWidth()
-            .padding(vertical = 15.dp),
+            .padding(vertical = 16.dp),
         shape = MaterialTheme.shapes.large,
         colors = ButtonDefaults.buttonColors(
             backgroundColor = MaterialTheme.colors.primary
@@ -81,7 +81,8 @@ fun HomeScreenButton(
     ) {
         Text(
             text = stringResource(id = R.string.HomeScreen_buttonContent),
-            modifier = Modifier.padding(vertical = 10.dp)
+            color = MaterialTheme.colors.onPrimary,
+            modifier = Modifier.padding(vertical = 8.dp)
         )
     }
 }

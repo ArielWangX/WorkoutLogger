@@ -5,11 +5,13 @@
     <string name="LandingScreen_buttonContent">Next Screen</string>
     <string name="HomeScreen_title">No Workout For Today</string>
     <string name="HomeScreen_buttonContent">Create New Workout</string>
-    <string name="ExcerciseCard_abs">abs</string>
-    <string name="ExcerciseCard_back">Back</string>
-    <string name="ExcerciseCard_biceps">Biceps</string>
-    <string name="ExcerciseCard_cardio">Cardio</string>
-    <string name="ExcerciseCard_chest">Chest</string>
-    <string name="ExcerciseScreen_buttonContent">Next</string>
+    <string name="ExerciseCard_abs">abs</string>
+    <string name="ExerciseCard_back">Back</string>
+    <string name="ExerciseCard_biceps">Biceps</string>
+    <string name="ExerciseCard_cardio">Cardio</string>
+    <string name="ExerciseCard_chest">Chest</string>
+    <string name="ExerciseScreen_buttonContent">Next</string>
+    <string name="ExerciseScreen_topbarIconButtonContentDescription">BackIcon</string>
+    <string name="ExerciseScreen_topbarTitle">Exercise</string>
 
 </resources>

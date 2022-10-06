@@ -1,7 +1,7 @@
-package com.arielwang.workoutlogger.features.Excercise.ui.screen
+package com.arielwang.workoutlogger.features.exercise.ui.screen
 
 import androidx.lifecycle.ViewModel
-import com.arielwang.workoutlogger.R
+import com.arielwang.workoutlogger.features.home.ui.screen.HomeDestination
 import com.arielwang.workoutlogger.features.landing.ui.screen.LandingDestination
 import com.arielwang.workoutlogger.navigate.Navigator
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -9,7 +9,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import javax.inject.Inject
 
-object ExcerciseView {
+object ExerciseView {
     data class State(
         val cardList: List<Card> = emptyList()
     )
@@ -17,6 +17,7 @@ object ExcerciseView {
     sealed class Action {
         data class OnCardClicked(val text: String) : Action()
         object GoToNextPage : Action()
+        object GoBackToPreviousPage : Action()
     }
 }
 
@@ -26,52 +27,45 @@ data class Card(
 )
 
 @HiltViewModel
-class ExcerciseViewModel @Inject constructor(
+class ExerciseViewModel @Inject constructor(
     private val navigator: Navigator
 ) : ViewModel() {
 
-    private var viewState = ExcerciseView.State()
+    private var viewState = ExerciseView.State()
 
     private val _uiState = MutableStateFlow(viewState)
-    val uiState: StateFlow<ExcerciseView.State> = _uiState
+    val uiState: StateFlow<ExerciseView.State> = _uiState
 
     init {
         viewState = viewState.copy(
             cardList =
-            listOf(Card("abs"), Card("Back"), Card("Biceps"), Card("Cardio"), Card("Chest"))
+            listOf(
+                Card("abs"), Card("Back"), Card("Biceps"), Card("Cardio"), Card("Chest"),
+                Card("sdf"), Card("werfwec"), Card("sdfs"), Card("efw"), Card("ef"),
+                Card("srfgs"), Card("hgf"), Card("ert"), Card("g"), Card("ert")
+            )
         )
         emitViewState()
     }
 
-    fun onUiAction(action: ExcerciseView.Action) {
+    fun onUiAction(action: ExerciseView.Action) {
         when (action) {
-            is ExcerciseView.Action.GoToNextPage -> {
+            is ExerciseView.Action.GoToNextPage -> {
                 navigator.navigate(LandingDestination.route())
             }
-            is ExcerciseView.Action.OnCardClicked -> {
-                val updatedCardList = mutableListOf<Card>()
-
-                viewState.cardList.forEach {
-                    if (action.text == it.text) {
-                        updatedCardList.add(it.copy(isSelected = !it.isSelected))
-                    } else {
-                        updatedCardList.add(it)
-                    }
-                }
-
+            is ExerciseView.Action.GoBackToPreviousPage -> {
+                navigator.navigate(HomeDestination.route())
+            }
+            is ExerciseView.Action.OnCardClicked -> {
                 viewState = viewState.copy(
-                    cardList = updatedCardList
+                    cardList = viewState.cardList.map {
+                        if (it.text == action.text) {
+                            return@map it.copy(isSelected = !it.isSelected)
+                        } else {
+                            return@map it
+                        }
+                    }
                 )
-//  different approach
-//                viewState = viewState.copy(
-//                    cardList = viewState.cardList.map {
-//                        if (it.text == action.text) {
-//                            return@map it.copy(isSelected = !it.isSelected)
-//                        } else {
-//                            return@map it
-//                        }
-//                    }
-//                )
                 emitViewState()
             }
         }
