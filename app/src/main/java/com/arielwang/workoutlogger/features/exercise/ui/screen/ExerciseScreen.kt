@@ -15,6 +15,7 @@ import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
 import com.arielwang.workoutlogger.R
 import com.arielwang.workoutlogger.features.component.ScaffoldWithTopBar
+import com.arielwang.workoutlogger.features.component.ScreenButton
 import com.google.accompanist.insets.LocalWindowInsets
 import com.google.accompanist.insets.toPaddingValues
 
@@ -132,26 +133,15 @@ fun ExerciseCard(
     }
 }
 
-
 @Composable
 fun ExerciseScreenButton(
     buttonConstraintLayout: Modifier,
     onAction: (ExerciseView.Action) -> Unit = {}
 ) {
-    Button(
-        modifier = buttonConstraintLayout
-            .fillMaxWidth()
-            .padding(vertical = 16.dp),
-        shape = MaterialTheme.shapes.large,
-        colors = ButtonDefaults.buttonColors(
-            backgroundColor = MaterialTheme.colors.primary
-        ),
-        onClick = { onAction(ExerciseView.Action.GoToNextPage) }
-    ) {
-        Text(
-            text = stringResource(id = R.string.ExerciseScreen_buttonContent),
-            color = MaterialTheme.colors.onPrimary,
-            modifier = Modifier.padding(vertical = 8.dp)
-        )
-    }
+    ScreenButton(
+        buttonConstraintLayout = buttonConstraintLayout,
+        buttonText = R.string.ExerciseScreen_buttonContent,
+        onAction = { onAction(ExerciseView.Action.GoToNextPage) }
+    )
 }
+

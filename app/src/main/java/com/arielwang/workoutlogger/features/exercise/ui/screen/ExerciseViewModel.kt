@@ -3,6 +3,7 @@ package com.arielwang.workoutlogger.features.exercise.ui.screen
 import androidx.lifecycle.ViewModel
 import com.arielwang.workoutlogger.features.home.ui.screen.HomeDestination
 import com.arielwang.workoutlogger.features.landing.ui.screen.LandingDestination
+import com.arielwang.workoutlogger.features.track.ui.screen.TrackDestination
 import com.arielwang.workoutlogger.navigate.Navigator
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -51,7 +52,7 @@ class ExerciseViewModel @Inject constructor(
     fun onUiAction(action: ExerciseView.Action) {
         when (action) {
             is ExerciseView.Action.GoToNextPage -> {
-                navigator.navigate(LandingDestination.route())
+                navigator.navigate(TrackDestination.route())
             }
             is ExerciseView.Action.GoBackToPreviousPage -> {
                 navigator.navigate(HomeDestination.route())

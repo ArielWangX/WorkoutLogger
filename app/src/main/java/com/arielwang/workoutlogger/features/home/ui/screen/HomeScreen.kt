@@ -11,6 +11,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
 import com.arielwang.workoutlogger.R
+import com.arielwang.workoutlogger.features.component.ScreenButton
 
 
 @Composable
@@ -68,22 +69,11 @@ fun HomeScreenButton(
     buttonConstraintLayout: Modifier,
     onAction: (HomeView.Action) -> Unit = {}
 ) {
-
-    Button(
-        modifier = buttonConstraintLayout
-            .fillMaxWidth()
-            .padding(vertical = 16.dp),
-        shape = MaterialTheme.shapes.large,
-        colors = ButtonDefaults.buttonColors(
-            backgroundColor = MaterialTheme.colors.primary
-        ),
-        onClick = { onAction(HomeView.Action.GoToNextPage) }
-    ) {
-        Text(
-            text = stringResource(id = R.string.HomeScreen_buttonContent),
-            color = MaterialTheme.colors.onPrimary,
-            modifier = Modifier.padding(vertical = 8.dp)
-        )
-    }
+    ScreenButton(
+        buttonConstraintLayout = buttonConstraintLayout,
+        buttonText = R.string.HomeScreen_buttonContent,
+        onAction = { onAction(HomeView.Action.GoToNextPage) }
+    )
 }
+
 
