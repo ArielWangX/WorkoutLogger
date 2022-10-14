@@ -13,5 +13,6 @@
     <string name="ExerciseScreen_buttonContent">Next</string>
     <string name="ExerciseScreen_topbarIconButtonContentDescription">BackIcon</string>
     <string name="ExerciseScreen_topbarTitle">Exercise</string>
+    <string name="TrackScreen_buttonContent">Save</string>
 
 </resources>

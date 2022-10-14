@@ -14,9 +14,8 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
 import com.arielwang.workoutlogger.R
+import com.arielwang.workoutlogger.features.component.PrimaryButton
 import com.arielwang.workoutlogger.features.component.ScaffoldWithTopBar
-import com.google.accompanist.insets.LocalWindowInsets
-import com.google.accompanist.insets.toPaddingValues
 
 @Composable
 fun ExerciseScreen(
@@ -49,7 +48,7 @@ fun ExerciseContentConstrainLayout(
         ExerciseCardList(
             uiState = uiState,
             onAction = onAction,
-            cardListConstrainLayout = Modifier.constrainAs(cardListSection) {
+            modifier = Modifier.constrainAs(cardListSection) {
                 top.linkTo(parent.top)
                 bottom.linkTo(button.top)
                 start.linkTo(parent.start)
@@ -57,11 +56,12 @@ fun ExerciseContentConstrainLayout(
             }
         )
 
-        ExerciseScreenButton(
-            onAction = onAction,
-            buttonConstraintLayout = Modifier.constrainAs(button) {
+        PrimaryButton(
+            modifier = Modifier.constrainAs(button) {
                 bottom.linkTo(parent.bottom)
-            }
+            },
+            buttonText = stringResource(id = R.string.ExerciseScreen_buttonContent),
+            onAction = { onAction(ExerciseView.Action.GoToNextPage)}
         )
     }
 }
@@ -70,10 +70,10 @@ fun ExerciseContentConstrainLayout(
 fun ExerciseCardList(
     uiState: ExerciseView.State,
     onAction: (ExerciseView.Action) -> Unit,
-    cardListConstrainLayout: Modifier
+    modifier: Modifier
 ) {
     LazyColumn(
-        modifier = cardListConstrainLayout
+        modifier = modifier
     ) {
         item {Spacer(modifier = Modifier.height(32.dp))}
 
@@ -132,26 +132,3 @@ fun ExerciseCard(
     }
 }
 
-
-@Composable
-fun ExerciseScreenButton(
-    buttonConstraintLayout: Modifier,
-    onAction: (ExerciseView.Action) -> Unit = {}
-) {
-    Button(
-        modifier = buttonConstraintLayout
-            .fillMaxWidth()
-            .padding(vertical = 16.dp),
-        shape = MaterialTheme.shapes.large,
-        colors = ButtonDefaults.buttonColors(
-            backgroundColor = MaterialTheme.colors.primary
-        ),
-        onClick = { onAction(ExerciseView.Action.GoToNextPage) }
-    ) {
-        Text(
-            text = stringResource(id = R.string.ExerciseScreen_buttonContent),
-            color = MaterialTheme.colors.onPrimary,
-            modifier = Modifier.padding(vertical = 8.dp)
-        )
-    }
-}

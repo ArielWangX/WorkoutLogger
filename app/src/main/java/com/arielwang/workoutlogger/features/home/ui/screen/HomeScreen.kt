@@ -1,8 +1,6 @@
 package com.arielwang.workoutlogger.features.home.ui.screen
 
 import androidx.compose.foundation.layout.*
-import androidx.compose.material.Button
-import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
@@ -11,6 +9,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
 import com.arielwang.workoutlogger.R
+import com.arielwang.workoutlogger.features.component.PrimaryButton
 
 
 @Composable
@@ -42,48 +41,26 @@ fun HomeScreenConstraintLayout(
         }
         )
 
-        HomeScreenButton(
-            buttonConstraintLayout = Modifier.constrainAs(button) {
+        PrimaryButton(
+            modifier = Modifier.constrainAs(button) {
                 bottom.linkTo(parent.bottom)
             },
-            onAction = onAction
+            buttonText = stringResource(id = R.string.HomeScreen_buttonContent),
+            onAction = { onAction(HomeView.Action.GoToNextPage) }
         )
-
     }
 }
 
 @Composable
-fun HomeScreenContent(textConstraintLayout: Modifier) {
+fun HomeScreenContent(modifier: Modifier) {
 
     Text(
         text = stringResource(id = R.string.HomeScreen_title),
-        modifier = textConstraintLayout,
+        modifier = modifier,
         style = MaterialTheme.typography.subtitle2,
         color = MaterialTheme.colors.onSecondary
     )
 }
 
-@Composable
-fun HomeScreenButton(
-    buttonConstraintLayout: Modifier,
-    onAction: (HomeView.Action) -> Unit = {}
-) {
 
-    Button(
-        modifier = buttonConstraintLayout
-            .fillMaxWidth()
-            .padding(vertical = 16.dp),
-        shape = MaterialTheme.shapes.large,
-        colors = ButtonDefaults.buttonColors(
-            backgroundColor = MaterialTheme.colors.primary
-        ),
-        onClick = { onAction(HomeView.Action.GoToNextPage) }
-    ) {
-        Text(
-            text = stringResource(id = R.string.HomeScreen_buttonContent),
-            color = MaterialTheme.colors.onPrimary,
-            modifier = Modifier.padding(vertical = 8.dp)
-        )
-    }
-}
 
