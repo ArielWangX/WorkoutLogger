@@ -55,7 +55,7 @@ class ExerciseViewModel @Inject constructor(
                 navigator.navigate(TrackDestination.route())
             }
             is ExerciseView.Action.GoBackToPreviousPage -> {
-                navigator.navigate(HomeDestination.route())
+                navigator.navigateUp()
             }
             is ExerciseView.Action.OnCardClicked -> {
                 viewState = viewState.copy(

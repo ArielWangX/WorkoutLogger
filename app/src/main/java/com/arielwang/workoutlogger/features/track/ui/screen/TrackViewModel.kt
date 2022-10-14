@@ -36,7 +36,7 @@ class TrackViewModel @Inject constructor(
                 navigator.navigate(HomeDestination.route())
             }
             is TrackView.Action.GoBackToPreviousPage -> {
-                navigator.navigate(ExerciseDestination.route())
+                navigator.navigateUp()
             }
         }
     }

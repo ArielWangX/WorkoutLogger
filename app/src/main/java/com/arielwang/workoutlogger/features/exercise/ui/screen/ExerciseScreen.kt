@@ -14,10 +14,8 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
 import com.arielwang.workoutlogger.R
+import com.arielwang.workoutlogger.features.component.PrimaryButton
 import com.arielwang.workoutlogger.features.component.ScaffoldWithTopBar
-import com.arielwang.workoutlogger.features.component.ScreenButton
-import com.google.accompanist.insets.LocalWindowInsets
-import com.google.accompanist.insets.toPaddingValues
 
 @Composable
 fun ExerciseScreen(
@@ -50,7 +48,7 @@ fun ExerciseContentConstrainLayout(
         ExerciseCardList(
             uiState = uiState,
             onAction = onAction,
-            cardListConstrainLayout = Modifier.constrainAs(cardListSection) {
+            modifier = Modifier.constrainAs(cardListSection) {
                 top.linkTo(parent.top)
                 bottom.linkTo(button.top)
                 start.linkTo(parent.start)
@@ -58,11 +56,12 @@ fun ExerciseContentConstrainLayout(
             }
         )
 
-        ExerciseScreenButton(
-            onAction = onAction,
-            buttonConstraintLayout = Modifier.constrainAs(button) {
+        PrimaryButton(
+            modifier = Modifier.constrainAs(button) {
                 bottom.linkTo(parent.bottom)
-            }
+            },
+            buttonText = stringResource(id = R.string.ExerciseScreen_buttonContent),
+            onAction = { onAction(ExerciseView.Action.GoToNextPage)}
         )
     }
 }
@@ -71,10 +70,10 @@ fun ExerciseContentConstrainLayout(
 fun ExerciseCardList(
     uiState: ExerciseView.State,
     onAction: (ExerciseView.Action) -> Unit,
-    cardListConstrainLayout: Modifier
+    modifier: Modifier
 ) {
     LazyColumn(
-        modifier = cardListConstrainLayout
+        modifier = modifier
     ) {
         item {Spacer(modifier = Modifier.height(32.dp))}
 
@@ -131,17 +130,5 @@ fun ExerciseCard(
             }
         }
     }
-}
-
-@Composable
-fun ExerciseScreenButton(
-    buttonConstraintLayout: Modifier,
-    onAction: (ExerciseView.Action) -> Unit = {}
-) {
-    ScreenButton(
-        buttonConstraintLayout = buttonConstraintLayout,
-        buttonText = R.string.ExerciseScreen_buttonContent,
-        onAction = { onAction(ExerciseView.Action.GoToNextPage) }
-    )
 }
 

@@ -13,13 +13,13 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 
 @Composable
-fun ScreenButton(
-    buttonConstraintLayout: Modifier,
-    @StringRes buttonText: Int,
+fun PrimaryButton(
+    modifier: Modifier,
+    buttonText: String,
     onAction: () -> Unit = {}
 ) {
     Button(
-        modifier = buttonConstraintLayout
+        modifier = modifier
             .fillMaxWidth()
             .padding(vertical = 16.dp),
         shape = MaterialTheme.shapes.large,
@@ -29,7 +29,7 @@ fun ScreenButton(
         onClick = { onAction() }
     ) {
         Text(
-            text = stringResource(id = buttonText),
+            text = buttonText,
             color = MaterialTheme.colors.onPrimary,
             modifier = Modifier.padding(vertical = 8.dp)
         )
