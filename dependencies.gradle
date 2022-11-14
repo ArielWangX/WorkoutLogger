@@ -58,6 +58,7 @@ ext {
             navigationCompose        :
                     "androidx.navigation:navigation-compose:$navigation",
             window                   : "androidx.window:window:$window",
+
     ]
 
     GoogleDependencies = [

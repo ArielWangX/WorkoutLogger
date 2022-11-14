@@ -1,6 +1,7 @@
 package com.arielwang.workoutlogger
 
 import android.os.Bundle
+import android.view.WindowManager
 import android.view.animation.AccelerateInterpolator
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -40,7 +41,7 @@ internal class MainActivity : ComponentActivity() {
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
 
-    WindowCompat.setDecorFitsSystemWindows(window, false)
+    WindowCompat.setDecorFitsSystemWindows(window, true)
 
     val splashScreen = installSplashScreen()
     splashScreen.setOnExitAnimationListener {
