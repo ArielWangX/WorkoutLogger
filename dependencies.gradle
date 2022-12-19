@@ -16,9 +16,6 @@ ext {
     navigation = "2.5.0"
     window = "1.0.0"
 
-    // Room
-    roomVersion = "2.4.3"
-
     // Google
     accompanist = "0.23.1"
     material = "1.7.0-alpha03"
@@ -61,11 +58,6 @@ ext {
             navigationCompose        :
                     "androidx.navigation:navigation-compose:$navigation",
             window                   : "androidx.window:window:$window",
-    ]
-
-    RoomDependencies = [
-            roomRuntime              : "androidx.room:room-runtime:$roomVersion",
-            roomCompiler             : "androidx.room:room-compiler:$roomVersion",
     ]
 
     GoogleDependencies = [

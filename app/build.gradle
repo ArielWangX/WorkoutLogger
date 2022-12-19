@@ -71,10 +71,6 @@ dependencies {
     implementation rootProject.ext.AndroidXDependencies.window
     implementation "androidx.constraintlayout:constraintlayout:2.1.4"
 
-    // Room
-    implementation rootProject.ext.RoomDependencies.roomRuntime
-    kapt rootProject.ext.RoomDependencies.roomCompiler
-
     // Google
     implementation rootProject.ext.GoogleDependencies.accompanistInsets
     implementation rootProject.ext.GoogleDependencies.accompanistInsetsUi
