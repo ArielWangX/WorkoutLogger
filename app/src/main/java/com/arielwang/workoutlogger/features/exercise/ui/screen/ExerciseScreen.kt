@@ -30,7 +30,6 @@ fun ExerciseScreen(
     ) {
         ExerciseContentConstraintLayout(uiState = uiState, onAction = onAction)
     }
-
 }
 
 @Composable

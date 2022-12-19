@@ -54,7 +54,6 @@ fun TrackScreen(
             onAction = onAction
         )
     }
-
 }
 
 @Composable
