@@ -28,13 +28,12 @@ fun ExerciseScreen(
         onAction = { onAction(ExerciseView.Action.GoBackToPreviousPage)},
         modifier = Modifier.systemBarsPadding()
     ) {
-        ExerciseContentConstrainLayout(uiState = uiState, onAction = onAction)
+        ExerciseContentConstraintLayout(uiState = uiState, onAction = onAction)
     }
-
 }
 
 @Composable
-fun ExerciseContentConstrainLayout(
+fun ExerciseContentConstraintLayout(
     uiState: ExerciseView.State,
     onAction: (ExerciseView.Action) -> Unit
 ) {
