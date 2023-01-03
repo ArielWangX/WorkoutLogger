@@ -63,7 +63,6 @@ dependencies {
     implementation rootProject.ext.AndroidXDependencies.coreSplashscreen
     kapt rootProject.ext.AndroidXDependencies.hiltCompiler
     implementation rootProject.ext.AndroidXDependencies.hiltNavigationCompose
-    implementation rootProject.ext.AndroidXDependencies.hiltWork
     implementation rootProject.ext.AndroidXDependencies.lifecycleRuntimeKtx
     implementation rootProject.ext.AndroidXDependencies.lifecycleViewmodelCompose
     implementation rootProject.ext.AndroidXDependencies.navigationRuntimeKtx

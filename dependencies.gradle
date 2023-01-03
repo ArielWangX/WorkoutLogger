@@ -9,7 +9,6 @@ ext {
     coreKtx = "1.8.0"
     coreSplashscreen = "1.0.0-rc01"
     hiltNavigationCompose = "1.0.0"
-    hiltWork = "1.0.0"
     hiltCompiler = "1.0.0"
     lifecycleRuntimeKtx = "2.5.0"
     lifecycleViewmodelCompose = "2.5.0"
@@ -48,7 +47,6 @@ ext {
             coreSplashscreen         : "androidx.core:core-splashscreen:$coreSplashscreen",
             hiltCompiler             : "androidx.hilt:hilt-compiler:$hiltCompiler",
             hiltNavigationCompose    : "androidx.hilt:hilt-navigation-compose:$hiltNavigationCompose",
-            hiltWork                 : "androidx.hilt:hilt-work:$hiltWork",
             lifecycleRuntimeKtx      :
                     "androidx.lifecycle:lifecycle-runtime-ktx:$lifecycleRuntimeKtx",
             lifecycleViewmodelCompose:
