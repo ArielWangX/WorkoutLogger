@@ -1,6 +1,7 @@
 package com.arielwang.workoutlogger.features.home.ui.screen
 
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
@@ -33,12 +34,14 @@ fun HomeScreenConstraintLayout(
     ) {
         val (button, text) = createRefs()
 
-        HomeScreenContent(Modifier.constrainAs(text) {
-            top.linkTo(parent.top)
-            bottom.linkTo(parent.bottom)
-            start.linkTo(parent.start)
-            end.linkTo(parent.end)
-        }
+        HomeScreenContent(
+            modifier = Modifier.constrainAs(text) {
+                top.linkTo(parent.top)
+                bottom.linkTo(parent.bottom)
+                start.linkTo(parent.start)
+                end.linkTo(parent.end)
+            },
+            state = uiState
         )
 
         PrimaryButton(
@@ -52,14 +55,28 @@ fun HomeScreenConstraintLayout(
 }
 
 @Composable
-fun HomeScreenContent(modifier: Modifier) {
+fun HomeScreenContent(modifier: Modifier, state: HomeView.State) {
 
-    Text(
-        text = stringResource(id = R.string.HomeScreen_title),
-        modifier = modifier,
-        style = MaterialTheme.typography.subtitle2,
-        color = MaterialTheme.colors.onSecondary
-    )
+    if (state.exercises.isEmpty()) {
+        Text(
+            text = stringResource(id = R.string.HomeScreen_title),
+            modifier = modifier,
+            style = MaterialTheme.typography.subtitle2,
+            color = MaterialTheme.colors.onSecondary
+        )
+    } else {
+        LazyColumn {
+            state.exercises.forEach {
+                item {
+                    Text(
+                        text = it.type,
+                        style = MaterialTheme.typography.subtitle2,
+                        color = MaterialTheme.colors.onSecondary
+                    )
+                }
+            }
+        }
+    }
 }
 
 
