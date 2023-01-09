@@ -1,13 +1,16 @@
 package com.arielwang.workoutlogger.features.exercise.ui.screen
 
 import androidx.lifecycle.ViewModel
-import com.arielwang.workoutlogger.features.home.ui.screen.HomeDestination
-import com.arielwang.workoutlogger.features.landing.ui.screen.LandingDestination
+import androidx.lifecycle.viewModelScope
+import com.arielwang.workoutlogger.database.model.Exercise
+import com.arielwang.workoutlogger.features.exercise.repository.ExerciseRepository
 import com.arielwang.workoutlogger.features.track.ui.screen.TrackDestination
 import com.arielwang.workoutlogger.navigate.Navigator
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.launch
+import java.util.*
 import javax.inject.Inject
 
 object ExerciseView {
@@ -29,7 +32,8 @@ data class Card(
 
 @HiltViewModel
 class ExerciseViewModel @Inject constructor(
-    private val navigator: Navigator
+    private val navigator: Navigator,
+    private val exerciseRepository: ExerciseRepository
 ) : ViewModel() {
 
     private var viewState = ExerciseView.State()
@@ -52,6 +56,11 @@ class ExerciseViewModel @Inject constructor(
     fun onUiAction(action: ExerciseView.Action) {
         when (action) {
             is ExerciseView.Action.GoToNextPage -> {
+                viewModelScope.launch {
+                    exerciseRepository.insertExercise(
+                        Exercise(type = viewState.cardList.find { it.isSelected }?.text ?: "")
+                    )
+                }
                 navigator.navigate(TrackDestination.route())
             }
             is ExerciseView.Action.GoBackToPreviousPage -> {
