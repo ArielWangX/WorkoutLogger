@@ -2,9 +2,9 @@ package com.arielwang.workoutlogger.database.di
 
 import android.content.Context
 import androidx.room.Room
-import androidx.room.RoomDatabase
 import com.arielwang.workoutlogger.database.AppDatabase
-import com.arielwang.workoutlogger.database.ExerciseDao
+import com.arielwang.workoutlogger.database.daos.ExerciseDao
+import com.arielwang.workoutlogger.database.migrations.migration_1_2
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -24,7 +24,9 @@ internal abstract class DatabaseModule {
         context,
         AppDatabase::class.java,
         DATABASE_NAME,
-      ).build()
+      )
+        .addMigrations(migration_1_2)
+        .build()
     }
 
     @Provides

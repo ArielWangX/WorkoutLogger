@@ -1,4 +1,4 @@
-package com.arielwang.workoutlogger.features.exercise.ui.screen
+package com.arielwang.workoutlogger.features.addexerciseflow.exercise.ui.screen
 
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue

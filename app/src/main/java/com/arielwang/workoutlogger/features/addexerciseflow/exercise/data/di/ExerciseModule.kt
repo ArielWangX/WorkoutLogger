@@ -1,9 +1,7 @@
-package com.arielwang.workoutlogger.features.home.data.di
+package com.arielwang.workoutlogger.features.addexerciseflow.exercise.data.di
 
 import com.arielwang.workoutlogger.features.addexerciseflow.exercise.data.repository.ExerciseRepositoryImpl
 import com.arielwang.workoutlogger.features.addexerciseflow.exercise.domain.repository.ExerciseRepository
-import com.arielwang.workoutlogger.features.home.data.repository.HomeRepositoryImpl
-import com.arielwang.workoutlogger.features.home.domain.repository.HomeRepository
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
@@ -11,9 +9,9 @@ import dagger.hilt.components.SingletonComponent
 
 @InstallIn(SingletonComponent::class)
 @Module
-internal abstract class HomeModule {
+internal abstract class ExerciseModule {
   @Binds
-  abstract fun bindHomeRepository(
-    impl: HomeRepositoryImpl,
-  ): HomeRepository
+  abstract fun bindExerciseRepository(
+      impl: ExerciseRepositoryImpl,
+  ): ExerciseRepository
 }

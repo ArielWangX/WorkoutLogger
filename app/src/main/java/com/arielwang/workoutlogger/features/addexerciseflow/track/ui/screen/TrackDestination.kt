@@ -1,11 +1,11 @@
-package com.arielwang.workoutlogger.features.track.ui.screen
+package com.arielwang.workoutlogger.features.addexerciseflow.track.ui.screen
 
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavGraphBuilder
 import com.arielwang.workoutlogger.core.ui.screen.screenViewModel
-import com.arielwang.workoutlogger.features.exercise.ui.screen.ExerciseView
+import com.arielwang.workoutlogger.features.addexerciseflow.exercise.ui.screen.ExerciseView
 import com.arielwang.workoutlogger.navigate.NavigationDestination
 import com.arielwang.workoutlogger.navigate.destination.composable
 

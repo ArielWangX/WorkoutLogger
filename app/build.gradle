@@ -65,6 +65,7 @@ dependencies {
     implementation rootProject.ext.AndroidXDependencies.composeUi
     implementation rootProject.ext.AndroidXDependencies.composeUiTooling
     implementation rootProject.ext.AndroidXDependencies.composeUiUtil
+    implementation rootProject.ext.AndroidXDependencies.constraintlayout
     implementation rootProject.ext.AndroidXDependencies.coreKtx
     implementation rootProject.ext.AndroidXDependencies.coreSplashscreen
     kapt rootProject.ext.AndroidXDependencies.hiltCompiler
@@ -77,7 +78,6 @@ dependencies {
     implementation rootProject.ext.AndroidXDependencies.roomRuntime
     implementation rootProject.ext.AndroidXDependencies.roomKtx
     kapt rootProject.ext.AndroidXDependencies.roomCompiler
-    implementation "androidx.constraintlayout:constraintlayout:2.1.4"
 
     // Google
     implementation rootProject.ext.GoogleDependencies.accompanistInsets
@@ -87,6 +87,7 @@ dependencies {
     implementation rootProject.ext.GoogleDependencies.accompanistPagerIndicators
     implementation rootProject.ext.GoogleDependencies.accompanistPlaceholder
     implementation rootProject.ext.GoogleDependencies.accompanistSystemUiController
+    implementation rootProject.ext.GoogleDependencies.gson
     implementation rootProject.ext.GoogleDependencies.hiltAndroid
     kapt rootProject.ext.GoogleDependencies.hiltAndroidCompiler
     implementation rootProject.ext.GoogleDependencies.material

@@ -2,22 +2,20 @@ package com.arielwang.workoutlogger.features.home.ui.screen
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.arielwang.workoutlogger.database.model.Exercise
-import com.arielwang.workoutlogger.features.exercise.ui.screen.ExerciseDestination
-import com.arielwang.workoutlogger.features.exercise.repository.ExerciseRepository
+import com.arielwang.workoutlogger.database.model.ExerciseFlow
+import com.arielwang.workoutlogger.features.addexerciseflow.exercise.ui.screen.ExerciseDestination
 import com.arielwang.workoutlogger.features.home.domain.repository.HomeRepository
 import com.arielwang.workoutlogger.navigate.Navigator
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
-import timber.log.Timber
 import javax.inject.Inject
 
 object HomeView {
     data class State(
         val workoutForToday : Boolean = false,
-        val exercises: List<Exercise> = emptyList()
+        val exercises: List<String> = emptyList()
     )
 
     sealed class Action {
@@ -39,7 +37,12 @@ class HomeViewModel @Inject constructor(
     init {
         viewModelScope.launch {
             val exercises = homeRepository.getAllExercises()
-            viewState = viewState.copy(exercises = exercises)
+            val exercisesString = exercises.map {
+                "${it.type} \n" +
+                "${it.weight}, ${it.reps}\n ${it.hours}h ${it.mins}min ${it.secs}secs \n ${it.comment}"
+            }
+
+            viewState = viewState.copy(exercises = exercisesString)
             emitViewState()
         }
     }
