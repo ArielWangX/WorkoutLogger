@@ -93,7 +93,9 @@ dependencies {
     implementation rootProject.ext.GoogleDependencies.material
 
     // Test
+    testImplementation rootProject.ext.TestDependencies.coroutinesTest
     testImplementation rootProject.ext.TestDependencies.junit
+    testImplementation rootProject.ext.TestDependencies.kotlinTest
     testImplementation rootProject.ext.TestDependencies.testRunner
     testImplementation rootProject.ext.TestDependencies.turbine
 

@@ -24,7 +24,9 @@ ext {
     hilt = "2.43.2"
 
     //Test
+    coroutinesTest = "1.6.4"
     junit = "4.13.2"
+    kotlinTest = "1.7.20"
     testRunner = "1.4.0"
     turbine = "0.8.0"
 
@@ -80,9 +82,11 @@ ext {
     ]
 
     TestDependencies = [
-            junit     : "junit:junit:$junit",
-            testRunner: "androidx.test:runner:$testRunner",
-            turbine   : "app.cash.turbine:turbine:$turbine"
+            coroutinesTest  : "org.jetbrains.kotlinx:kotlinx-coroutines-test:$coroutinesTest",
+            junit           : "junit:junit:$junit",
+            kotlinTest      : "org.jetbrains.kotlin:kotlin-test:$kotlinTest",
+            testRunner      : "androidx.test:runner:$testRunner",
+            turbine         : "app.cash.turbine:turbine:$turbine"
     ]
 
     OtherDependencies = [
