@@ -1,4 +1,4 @@
-package com.arielwang.workoutlogger.features.track.ui.screen
+package com.arielwang.workoutlogger.features.addexerciseflow.track.ui.screen
 
 import androidx.compose.foundation.border
 import androidx.compose.foundation.gestures.scrollable

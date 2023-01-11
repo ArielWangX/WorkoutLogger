@@ -6,6 +6,7 @@ ext {
     composeCompiler = "1.2.0"
     composeConstraintLayout = "1.0.1"
     composeMaterial3 = "1.0.0-alpha14"
+    constraintlayout = "2.1.4"
     coreKtx = "1.8.0"
     coreSplashscreen = "1.0.0-rc01"
     hiltNavigationCompose = "1.0.0"
@@ -18,6 +19,7 @@ ext {
 
     // Google
     accompanist = "0.23.1"
+    gson = "2.8.6"
     material = "1.7.0-alpha03"
     hilt = "2.43.2"
 
@@ -44,6 +46,7 @@ ext {
             composeUi                : "androidx.compose.ui:ui:$compose",
             composeUiTooling         : "androidx.compose.ui:ui-tooling:$compose",
             composeUiUtil            : "androidx.compose.ui:ui-util:$compose",
+            constraintlayout         : "androidx.constraintlayout:constraintlayout:$constraintlayout",
             coreKtx                  : "androidx.core:core-ktx:$coreKtx",
             coreSplashscreen         : "androidx.core:core-splashscreen:$coreSplashscreen",
             hiltCompiler             : "androidx.hilt:hilt-compiler:$hiltCompiler",
@@ -70,6 +73,7 @@ ext {
             accompanistPagerIndicators   : "com.google.accompanist:accompanist-pager-indicators:$accompanist",
             accompanistPlaceholder       : "com.google.accompanist:accompanist-placeholder-material:$accompanist",
             accompanistSystemUiController: "com.google.accompanist:accompanist-systemuicontroller:$accompanist",
+            gson                         : "com.google.code.gson:gson:$gson",
             hiltAndroid                  : "com.google.dagger:hilt-android:$hilt",
             hiltAndroidCompiler          : "com.google.dagger:hilt-android-compiler:$hilt",
             material                     : "com.google.android.material:material:$material"

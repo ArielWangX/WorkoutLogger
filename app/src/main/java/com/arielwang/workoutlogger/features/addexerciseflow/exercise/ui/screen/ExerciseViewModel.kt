@@ -1,16 +1,13 @@
-package com.arielwang.workoutlogger.features.exercise.ui.screen
+package com.arielwang.workoutlogger.features.addexerciseflow.exercise.ui.screen
 
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
-import com.arielwang.workoutlogger.database.model.Exercise
-import com.arielwang.workoutlogger.features.exercise.repository.ExerciseRepository
-import com.arielwang.workoutlogger.features.track.ui.screen.TrackDestination
+import com.arielwang.workoutlogger.database.model.ExerciseFlow
+import com.arielwang.workoutlogger.features.addexerciseflow.shared.domain.ExerciseSharedStateManager
+import com.arielwang.workoutlogger.features.addexerciseflow.track.ui.screen.TrackDestination
 import com.arielwang.workoutlogger.navigate.Navigator
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.launch
-import java.util.*
 import javax.inject.Inject
 
 object ExerciseView {
@@ -33,7 +30,7 @@ data class Card(
 @HiltViewModel
 class ExerciseViewModel @Inject constructor(
     private val navigator: Navigator,
-    private val exerciseRepository: ExerciseRepository
+    private val exerciseSharedStateManager: ExerciseSharedStateManager
 ) : ViewModel() {
 
     private var viewState = ExerciseView.State()
@@ -56,11 +53,16 @@ class ExerciseViewModel @Inject constructor(
     fun onUiAction(action: ExerciseView.Action) {
         when (action) {
             is ExerciseView.Action.GoToNextPage -> {
-                viewModelScope.launch {
-                    exerciseRepository.insertExercise(
-                        Exercise(type = viewState.cardList.find { it.isSelected }?.text ?: "")
+                exerciseSharedStateManager.updateState(
+                    ExerciseFlow(
+                        type = viewState.cardList.filter {
+                            it.isSelected
+                        }.map {
+                            it.text
+                        }
                     )
-                }
+                )
+
                 navigator.navigate(TrackDestination.route())
             }
             is ExerciseView.Action.GoBackToPreviousPage -> {
@@ -85,11 +87,3 @@ class ExerciseViewModel @Inject constructor(
         _uiState.value = viewState
     }
 }
-
-//val excerciseCardData = listOf(
-//    R.string.ExcerciseCard_abs,
-//    R.string.ExcerciseCard_back,
-//    R.string.ExcerciseCard_biceps,
-//    R.string.ExcerciseCard_cardio,
-//    R.string.ExcerciseCard_chest
-//)

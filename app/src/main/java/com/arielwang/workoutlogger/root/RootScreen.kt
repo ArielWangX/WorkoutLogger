@@ -4,11 +4,11 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.rememberNavController
-import com.arielwang.workoutlogger.features.exercise.ui.screen.addExerciseScreen
+import com.arielwang.workoutlogger.features.addexerciseflow.exercise.ui.screen.addExerciseScreen
 import com.arielwang.workoutlogger.features.home.ui.screen.HomeDestination
 import com.arielwang.workoutlogger.features.home.ui.screen.addHomeScreen
 import com.arielwang.workoutlogger.features.landing.ui.screen.addLandingScreen
-import com.arielwang.workoutlogger.features.track.ui.screen.addTrackScreen
+import com.arielwang.workoutlogger.features.addexerciseflow.track.ui.screen.addTrackScreen
 import com.google.accompanist.navigation.material.BottomSheetNavigator
 import com.google.accompanist.navigation.material.ExperimentalMaterialNavigationApi
 

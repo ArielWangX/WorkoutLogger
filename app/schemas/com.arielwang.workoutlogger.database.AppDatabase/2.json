@@ -1,11 +1,11 @@
 {
   "formatVersion": 1,
   "database": {
-    "version": 1,
-    "identityHash": "b8a31cada1a5a0423a6e1bcaa1924405",
+    "version": 2,
+    "identityHash": "dcc385ba580a81c41a8d40f673138781",
     "entities": [
       {
-        "tableName": "Exercise",
+        "tableName": "ExerciseFlow",
         "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `type` TEXT NOT NULL, `weight` REAL NOT NULL, `reps` INTEGER NOT NULL, `hours` INTEGER NOT NULL, `mins` INTEGER NOT NULL, `secs` INTEGER NOT NULL, `comment` TEXT NOT NULL)",
         "fields": [
           {
@@ -70,7 +70,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'b8a31cada1a5a0423a6e1bcaa1924405')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'dcc385ba580a81c41a8d40f673138781')"
     ]
   }
 }

@@ -2,6 +2,7 @@ package com.arielwang.workoutlogger.features.home.ui.screen
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.material.Card
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
@@ -41,7 +42,7 @@ fun HomeScreenConstraintLayout(
                 start.linkTo(parent.start)
                 end.linkTo(parent.end)
             },
-            state = uiState
+            uiState = uiState
         )
 
         PrimaryButton(
@@ -55,9 +56,11 @@ fun HomeScreenConstraintLayout(
 }
 
 @Composable
-fun HomeScreenContent(modifier: Modifier, state: HomeView.State) {
-
-    if (state.exercises.isEmpty()) {
+fun HomeScreenContent(
+    modifier: Modifier,
+    uiState: HomeView.State
+) {
+    if (uiState.exercises.isEmpty()) {
         Text(
             text = stringResource(id = R.string.HomeScreen_title),
             modifier = modifier,
@@ -65,19 +68,47 @@ fun HomeScreenContent(modifier: Modifier, state: HomeView.State) {
             color = MaterialTheme.colors.onSecondary
         )
     } else {
-        LazyColumn {
-            state.exercises.forEach {
-                item {
-                    Text(
-                        text = it.type,
-                        style = MaterialTheme.typography.subtitle2,
-                        color = MaterialTheme.colors.onSecondary
-                    )
-                }
-            }
-        }
+        DisplayExerciseCardList(uiState = uiState, modifier = modifier)
     }
 }
 
+@Composable
+fun DisplayExerciseCardList(
+    uiState: HomeView.State,
+    modifier: Modifier
+) {
+    LazyColumn {
+        item {Spacer(modifier = Modifier.height(32.dp))}
+
+        uiState.exercises.forEach {
+            item{
+                DisplayExerciseCard(text = it)
+            }
+        }
+
+        item {Spacer(modifier = Modifier.height(32.dp))}
+    }
+}
+
+
+@Composable
+fun DisplayExerciseCard(
+    text: String
+) {
+    Card(
+        backgroundColor = MaterialTheme.colors.onPrimary,
+        shape = MaterialTheme.shapes.large,
+        modifier = Modifier
+            .padding(vertical = 16.dp)
+            .fillMaxWidth()
+    ) {
+        Text(
+            text = text,
+            color = MaterialTheme.colors.onSecondary,
+            style = MaterialTheme.typography.h6,
+            modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp)
+        )
+    }
+}
 
 

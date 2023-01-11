@@ -1,11 +1,16 @@
-package com.arielwang.workoutlogger.features.track.ui.screen
+package com.arielwang.workoutlogger.features.addexerciseflow.track.ui.screen
 
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.arielwang.workoutlogger.database.model.ExerciseFlow
+import com.arielwang.workoutlogger.features.addexerciseflow.shared.domain.ExerciseSharedStateManager
+import com.arielwang.workoutlogger.features.addexerciseflow.track.domain.repository.TrackRepository
 import com.arielwang.workoutlogger.features.home.ui.screen.HomeDestination
 import com.arielwang.workoutlogger.navigate.Navigator
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 object TrackView {
@@ -36,7 +41,9 @@ object TrackView {
 
 @HiltViewModel
 class TrackViewModel @Inject constructor(
-    private val navigator: Navigator
+    private val navigator: Navigator,
+    private val exerciseSharedStateManager: ExerciseSharedStateManager,
+    private val trackRepository: TrackRepository
 ) : ViewModel() {
 
     private var viewState = TrackView.State()
@@ -47,11 +54,26 @@ class TrackViewModel @Inject constructor(
     fun onUiAction(action: TrackView.Action) {
         when (action) {
             is TrackView.Action.GoToNextPage -> {
+                viewModelScope.launch {
+                    val types = exerciseSharedStateManager.getState().type
+                    val exercise = ExerciseFlow(
+                        type = types,
+                        weight = viewState.weightNumber.toDouble(),
+                        reps = viewState.repsNumber.toInt(),
+                        hours = viewState.hours.toInt(),
+                        mins = viewState.minutes.toInt(),
+                        secs = viewState.seconds.toInt(),
+                        comment = viewState.commentText
+                    )
+                    trackRepository.insertExercise(exercise)
+                }
                 navigator.navigate(HomeDestination.route())
             }
+
             is TrackView.Action.GoBackToPreviousPage -> {
                 navigator.navigateUp()
             }
+
             is TrackView.Action.OnMinusCounterClick -> {
                 when(action.textFieldInWhichSection) {
                     TrackTextFieldInWhichSection.WEIGHTTEXTFIELD -> {
@@ -68,6 +90,7 @@ class TrackViewModel @Inject constructor(
                     }
                 }
             }
+
             is TrackView.Action.OnPlusCounterClick -> {
                 when(action.textFieldInWhichSection) {
                     TrackTextFieldInWhichSection.WEIGHTTEXTFIELD -> {
@@ -84,42 +107,49 @@ class TrackViewModel @Inject constructor(
                     }
                 }
             }
+
             is TrackView.Action.onTextFieldValueChangeWeightNumber -> {
                 viewState = viewState.copy(
                     weightNumber = action.text
                 )
                 emitViewState()
             }
+
             is TrackView.Action.onTextFieldValueChangeRepsNumber -> {
                 viewState = viewState.copy(
                     repsNumber = action.text
                 )
                 emitViewState()
             }
+
             is TrackView.Action.onTextFieldValueChangeHours -> {
                 viewState = viewState.copy(
                     hours = action.text
                 )
                 emitViewState()
             }
+
             is TrackView.Action.onTextFieldValueChangeMinutes -> {
                 viewState = viewState.copy(
                     minutes = action.text
                 )
                 emitViewState()
             }
+
             is TrackView.Action.onTextFieldValueChangeSeconds -> {
                 viewState = viewState.copy(
                     seconds = action.text
                 )
                 emitViewState()
             }
+
             is TrackView.Action.OnTextFieldValueChangeCommentText -> {
                 viewState = viewState.copy(
                     commentText = action.text
                 )
                 emitViewState()
             }
+
             is TrackView.Action.ClearComment -> {
                 viewState = viewState.copy(
                     commentText = ""
