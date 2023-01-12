@@ -1,7 +1,5 @@
 package com.arielwang.workoutlogger.features.home.data.di
 
-import com.arielwang.workoutlogger.features.addexerciseflow.exercise.data.repository.ExerciseRepositoryImpl
-import com.arielwang.workoutlogger.features.addexerciseflow.exercise.domain.repository.ExerciseRepository
 import com.arielwang.workoutlogger.features.home.data.repository.HomeRepositoryImpl
 import com.arielwang.workoutlogger.features.home.domain.repository.HomeRepository
 import dagger.Binds

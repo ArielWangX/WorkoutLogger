@@ -17,6 +17,9 @@ ext {
     window = "1.0.0"
     room = "2.4.3"
 
+    // KotlinCoroutines
+    coroutines = "1.6.4"
+
     // Google
     accompanist = "0.23.1"
     gson = "2.8.6"
@@ -67,6 +70,11 @@ ext {
             roomKtx                  : "androidx.room:room-ktx:$room"
     ]
 
+    KotlinCoroutinesDependencies = [
+            coroutinesCore          : "org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutines",
+            coroutinesAndroid       : "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutines",
+    ]
+
     GoogleDependencies = [
             accompanistInsets            : "com.google.accompanist:accompanist-insets:$accompanist",
             accompanistInsetsUi          : "com.google.accompanist:accompanist-insets-ui:$accompanist",
@@ -82,11 +90,12 @@ ext {
     ]
 
     TestDependencies = [
-            coroutinesTest  : "org.jetbrains.kotlinx:kotlinx-coroutines-test:$coroutinesTest",
-            junit           : "junit:junit:$junit",
-            kotlinTest      : "org.jetbrains.kotlin:kotlin-test:$kotlinTest",
-            testRunner      : "androidx.test:runner:$testRunner",
-            turbine         : "app.cash.turbine:turbine:$turbine"
+            coroutinesTest      : "org.jetbrains.kotlinx:kotlinx-coroutines-test:$coroutinesTest",
+            coroutinesTestJvm   : "org.jetbrains.kotlinx:kotlinx-coroutines-test-jvm:$coroutinesTest",
+            junit               : "junit:junit:$junit",
+            kotlinTest          : "org.jetbrains.kotlin:kotlin-test:$kotlinTest",
+            testRunner          : "androidx.test:runner:$testRunner",
+            turbine             : "app.cash.turbine:turbine:$turbine"
     ]
 
     OtherDependencies = [
