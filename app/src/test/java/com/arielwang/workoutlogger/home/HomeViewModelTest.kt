@@ -2,6 +2,7 @@ package com.arielwang.workoutlogger.home
 
 import app.cash.turbine.test
 import com.arielwang.workoutlogger.database.model.ExerciseFlow
+import com.arielwang.workoutlogger.features.addexerciseflow.exercise.ui.screen.ExerciseDestination
 import com.arielwang.workoutlogger.features.home.domain.repository.HomeRepository
 import com.arielwang.workoutlogger.features.home.ui.screen.HomeView
 import com.arielwang.workoutlogger.features.home.ui.screen.HomeViewModel
@@ -31,11 +32,10 @@ class HomeViewModelTest {
     val coroutineRule = CoroutineRule()
 
     private val fakeNavigator = navigatorRule.navigator
-    private val fakeHomeRepository = object : HomeRepository{
-        override suspend fun getAllExercises(): List<ExerciseFlow>
-        = listOf(
+    private val fakeHomeRepository = object : HomeRepository {
+        override suspend fun getAllExercises(): List<ExerciseFlow> = listOf(
             ExerciseFlow(
-                type = listOf("Chest","Abs"),
+                type = listOf("Chest", "Abs"),
                 weight = 56.8,
                 reps = 2,
                 hours = 1,
@@ -65,15 +65,18 @@ class HomeViewModelTest {
     @Test
     fun `When Next button is clicked, go to next screen`() {
         runTest {
+            val viewModel = generateViewModel()
             val goToNextPageButton = HomeView.Action.GoToNextPage
-            generateViewModel().onUiAction(goToNextPageButton)
+
+            viewModel.onUiAction(goToNextPageButton)
 
             assertEquals(
-                fakeNavigator.awaitNextScreen(),
-                FakeNavigationBehaviour.Navigate("Exercise")
+                FakeNavigationBehaviour.Navigate(ExerciseDestination.route()),
+                fakeNavigator.awaitNextScreen()
             )
         }
     }
+
 
     private fun generateViewModel() = HomeViewModel(fakeNavigator, fakeHomeRepository)
 }
