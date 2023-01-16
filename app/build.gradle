@@ -69,9 +69,6 @@ dependencies {
     implementation rootProject.ext.AndroidXDependencies.constraintlayout
     implementation rootProject.ext.AndroidXDependencies.coreKtx
     implementation rootProject.ext.AndroidXDependencies.coreSplashscreen
-    implementation 'androidx.core:core-ktx:+'
-    implementation 'junit:junit:4.12'
-    implementation 'androidx.core:core-ktx:+'
     kapt rootProject.ext.AndroidXDependencies.hiltCompiler
     implementation rootProject.ext.AndroidXDependencies.hiltNavigationCompose
     implementation rootProject.ext.AndroidXDependencies.lifecycleRuntimeKtx
@@ -103,7 +100,7 @@ dependencies {
     // Test
     testImplementation rootProject.ext.TestDependencies.coroutinesTest
     implementation rootProject.ext.TestDependencies.coroutinesTestJvm
-    testImplementation rootProject.ext.TestDependencies.junit
+    implementation rootProject.ext.TestDependencies.junit
     testImplementation rootProject.ext.TestDependencies.kotlinTest
     testImplementation rootProject.ext.TestDependencies.testRunner
     testImplementation rootProject.ext.TestDependencies.turbine

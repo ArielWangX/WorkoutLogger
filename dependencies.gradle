@@ -7,7 +7,7 @@ ext {
     composeConstraintLayout = "1.0.1"
     composeMaterial3 = "1.0.0-alpha14"
     constraintlayout = "2.1.4"
-    coreKtx = "1.8.0"
+    coreKtx = "1.9.0"
     coreSplashscreen = "1.0.0-rc01"
     hiltNavigationCompose = "1.0.0"
     hiltCompiler = "1.0.0"
@@ -28,7 +28,7 @@ ext {
 
     //Test
     coroutinesTest = "1.6.4"
-    junit = "4.13.2"
+    junit = "4.12"
     kotlinTest = "1.7.20"
     testRunner = "1.4.0"
     turbine = "0.8.0"
