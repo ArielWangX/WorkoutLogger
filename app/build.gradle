@@ -3,15 +3,16 @@ plugins {
     id 'kotlin-android'
     id 'kotlin-kapt'
     id 'dagger.hilt.android.plugin'
+    id 'org.jetbrains.kotlin.android'
 }
 
 android {
-    compileSdk 32
+    compileSdk 33
 
     defaultConfig {
         applicationId "com.arielwang.workoutlogger"
-        minSdk 24
-        targetSdk 32
+        minSdk 33
+        targetSdk 33
         versionCode 1
         versionName "1.0"
 
@@ -79,6 +80,10 @@ dependencies {
     implementation rootProject.ext.AndroidXDependencies.roomKtx
     kapt rootProject.ext.AndroidXDependencies.roomCompiler
 
+    // KotlinCorouintes
+    implementation rootProject.ext.KotlinCoroutinesDependencies.coroutinesCore
+    implementation rootProject.ext.KotlinCoroutinesDependencies.coroutinesAndroid
+
     // Google
     implementation rootProject.ext.GoogleDependencies.accompanistInsets
     implementation rootProject.ext.GoogleDependencies.accompanistInsetsUi
@@ -93,7 +98,10 @@ dependencies {
     implementation rootProject.ext.GoogleDependencies.material
 
     // Test
-    testImplementation rootProject.ext.TestDependencies.junit
+    testImplementation rootProject.ext.TestDependencies.coroutinesTest
+    implementation rootProject.ext.TestDependencies.coroutinesTestJvm
+    implementation rootProject.ext.TestDependencies.junit
+    testImplementation rootProject.ext.TestDependencies.kotlinTest
     testImplementation rootProject.ext.TestDependencies.testRunner
     testImplementation rootProject.ext.TestDependencies.turbine
 
