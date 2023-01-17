@@ -55,7 +55,7 @@ class TrackViewModelTest {
     }
 
     @Test
-    fun `When Submit button is clicked, insert ExerciseFLow to database and navigate to the HomeScreen`() {
+    fun `When Submit button is clicked, insert ExerciseFLow into database and navigate to the HomeScreen`() {
         runTest {
             val viewModel = generateViewModel()
             val submitButton = TrackView.Action.GoToNextPage
@@ -168,7 +168,7 @@ class TrackViewModelTest {
     }
 
     @Test
-    fun `When the value of TextFiled in weight section change, update TrackView State weightNumber`() {
+    fun `When the value of TextFiled in weight section changes, update TrackView State weightNumber`() {
         runTest {
             val viewModel = generateViewModel()
             val onTextFieldValueChange = TrackView.Action.onTextFieldValueChangeWeightNumber("6.0")
@@ -184,7 +184,7 @@ class TrackViewModelTest {
     }
 
     @Test
-    fun `When the value of TextFiled in reps section change, update TrackView State repsNumber`() {
+    fun `When the value of TextFiled in reps section changes, update TrackView State repsNumber`() {
         runTest {
             val viewModel = generateViewModel()
             val onTextFieldValueChange = TrackView.Action.onTextFieldValueChangeRepsNumber("2")
@@ -200,7 +200,7 @@ class TrackViewModelTest {
     }
 
     @Test
-    fun `When the value of hours TextFiled in time section change, update TrackView State hours`() {
+    fun `When the value of hours TextFiled in time section changes, update TrackView State hours`() {
         runTest {
             val viewModel = generateViewModel()
             val onTextFieldValueChange = TrackView.Action.onTextFieldValueChangeHours("1")
@@ -216,7 +216,7 @@ class TrackViewModelTest {
     }
 
     @Test
-    fun `When the value of minutes TextFiled in time section change, update TrackView State minutes`() {
+    fun `When the value of minutes TextFiled in time section changes, update TrackView State minutes`() {
         runTest {
             val viewModel = generateViewModel()
             val onTextFieldValueChange = TrackView.Action.onTextFieldValueChangeMinutes("32")
@@ -232,7 +232,7 @@ class TrackViewModelTest {
     }
 
     @Test
-    fun `When the value of seconds TextFiled in time section change, update TrackView State seconds`() {
+    fun `When the value of seconds TextFiled in time section changes, update TrackView State seconds`() {
         runTest {
             val viewModel = generateViewModel()
             val onTextFieldValueChange = TrackView.Action.onTextFieldValueChangeSeconds("28")
@@ -248,7 +248,7 @@ class TrackViewModelTest {
     }
 
     @Test
-    fun `When the value of TextFiled in comment section change, update TrackView State commentText`() {
+    fun `When the value of TextFiled in comment section changes, update TrackView State commentText`() {
         runTest {
             val viewModel = generateViewModel()
             val onTextFieldValueChange = TrackView.Action.OnTextFieldValueChangeCommentText("Stretching")
