@@ -7,7 +7,6 @@ import com.arielwang.workoutlogger.features.addexerciseflow.exercise.ui.screen.E
 import com.arielwang.workoutlogger.features.addexerciseflow.exercise.ui.screen.ExerciseViewModel
 import com.arielwang.workoutlogger.features.addexerciseflow.shared.domain.ExerciseSharedStateManager
 import com.arielwang.workoutlogger.features.addexerciseflow.track.ui.screen.TrackDestination
-import com.arielwang.workoutlogger.features.home.ui.screen.HomeDestination
 import com.arielwang.workoutlogger.navigate.FakeNavigationBehaviour
 import com.arielwang.workoutlogger.navigate.FakeNavigatorRule
 import com.arielwang.workoutlogger.testutils.CoroutineRule
