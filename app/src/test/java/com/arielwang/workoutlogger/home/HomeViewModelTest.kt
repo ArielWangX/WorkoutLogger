@@ -30,7 +30,7 @@ class HomeViewModelTest {
         override suspend fun getAllExercises(): List<ExerciseFlow> = listOf(
             ExerciseFlow(
                 type = listOf("Chest", "Abs"),
-                weight = 56.8,
+                weight = 56,
                 reps = 2,
                 hours = 1,
                 mins = 23,
@@ -47,7 +47,7 @@ class HomeViewModelTest {
                 assertEquals(
                     HomeView.State(
                         exercises = listOf(
-                            "[Chest, Abs] \n" + "56.8, 2\n 1h 23min 30secs \n Chest exercise for 45min, abs exercise for 45min. Need to add stretching"
+                            "[Chest, Abs] \n" + "56, 2\n 1h 23min 30secs \n Chest exercise for 45min, abs exercise for 45min. Need to add stretching"
                         )
                     ),
                     awaitItem()

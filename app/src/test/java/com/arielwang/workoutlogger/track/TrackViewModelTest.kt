@@ -64,7 +64,7 @@ class TrackViewModelTest {
             assertEquals(
                 ExerciseFlow(
                     type = listOf("Abs", "Chest"),
-                    weight = 0.0,
+                    weight = 0,
                     reps = 0,
                     hours = 0,
                     mins = 0,
@@ -106,7 +106,7 @@ class TrackViewModelTest {
 
             viewModel.uiState.test {
                 assertEquals(
-                    TrackView.State( weightNumber = "-1.0" ),
+                    TrackView.State( weightNumber = "-1" ),
                     awaitItem()
                 )
             }
@@ -142,7 +142,7 @@ class TrackViewModelTest {
 
             viewModel.uiState.test {
                 assertEquals(
-                    TrackView.State( weightNumber = "1.0" ),
+                    TrackView.State( weightNumber = "1" ),
                     awaitItem()
                 )
             }
@@ -171,12 +171,12 @@ class TrackViewModelTest {
     fun `When the value of TextFiled in weight section changes, update TrackView State weightNumber`() {
         runTest {
             val viewModel = generateViewModel()
-            val onTextFieldValueChange = TrackView.Action.onTextFieldValueChangeWeightNumber("6.0")
+            val onTextFieldValueChange = TrackView.Action.OnTextFieldValueChangeWeightNumber("6")
             viewModel.onUiAction(onTextFieldValueChange)
 
             viewModel.uiState.test {
                 assertEquals(
-                    TrackView.State( weightNumber = "6.0" ),
+                    TrackView.State( weightNumber = "6" ),
                     awaitItem()
                 )
             }
@@ -187,7 +187,7 @@ class TrackViewModelTest {
     fun `When the value of TextFiled in reps section changes, update TrackView State repsNumber`() {
         runTest {
             val viewModel = generateViewModel()
-            val onTextFieldValueChange = TrackView.Action.onTextFieldValueChangeRepsNumber("2")
+            val onTextFieldValueChange = TrackView.Action.OnTextFieldValueChangeRepsNumber("2")
             viewModel.onUiAction(onTextFieldValueChange)
 
             viewModel.uiState.test {
@@ -203,7 +203,7 @@ class TrackViewModelTest {
     fun `When the value of hours TextFiled in time section changes, update TrackView State hours`() {
         runTest {
             val viewModel = generateViewModel()
-            val onTextFieldValueChange = TrackView.Action.onTextFieldValueChangeHours("1")
+            val onTextFieldValueChange = TrackView.Action.OnTextFieldValueChangeHours("1")
             viewModel.onUiAction(onTextFieldValueChange)
 
             viewModel.uiState.test {
@@ -219,7 +219,7 @@ class TrackViewModelTest {
     fun `When the value of minutes TextFiled in time section changes, update TrackView State minutes`() {
         runTest {
             val viewModel = generateViewModel()
-            val onTextFieldValueChange = TrackView.Action.onTextFieldValueChangeMinutes("32")
+            val onTextFieldValueChange = TrackView.Action.OnTextFieldValueChangeMinutes("32")
             viewModel.onUiAction(onTextFieldValueChange)
 
             viewModel.uiState.test {
@@ -235,7 +235,7 @@ class TrackViewModelTest {
     fun `When the value of seconds TextFiled in time section changes, update TrackView State seconds`() {
         runTest {
             val viewModel = generateViewModel()
-            val onTextFieldValueChange = TrackView.Action.onTextFieldValueChangeSeconds("28")
+            val onTextFieldValueChange = TrackView.Action.OnTextFieldValueChangeSeconds("28")
             viewModel.onUiAction(onTextFieldValueChange)
 
             viewModel.uiState.test {

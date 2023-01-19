@@ -13,7 +13,7 @@ data class ExerciseFlow(
     @TypeConverters(ExerciseTypeConverter::class)
     @ColumnInfo(name = "type") val type: List<String> = emptyList(),
 
-    @ColumnInfo(name = "weight") val weight: Double = 0.0,
+    @ColumnInfo(name = "weight") val weight: Int = 0,
     @ColumnInfo(name = "reps") val reps: Int = 0,
     @ColumnInfo(name = "hours") val hours: Int = 0,
     @ColumnInfo(name = "mins") val mins: Int = 0,
