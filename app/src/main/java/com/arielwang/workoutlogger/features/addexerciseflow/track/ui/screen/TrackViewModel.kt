@@ -15,11 +15,11 @@ import javax.inject.Inject
 
 object TrackView {
     data class State(
-        var weightNumber: String = "0",
+        var weightNumber: String = "0.0",
         var repsNumber: String = "0",
-        var hours: String = "",
-        var minutes: String = "",
-        var seconds: String = "",
+        var hours: String = "0",
+        var minutes: String = "0",
+        var seconds: String = "0",
         var commentText: String = ""
     )
 

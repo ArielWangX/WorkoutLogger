@@ -7,16 +7,10 @@ import com.arielwang.workoutlogger.features.home.domain.repository.HomeRepositor
 import com.arielwang.workoutlogger.features.home.ui.screen.HomeView
 import com.arielwang.workoutlogger.features.home.ui.screen.HomeViewModel
 import com.arielwang.workoutlogger.navigate.FakeNavigationBehaviour
-import com.arielwang.workoutlogger.navigate.FakeNavigator
 import com.arielwang.workoutlogger.navigate.FakeNavigatorRule
 import com.arielwang.workoutlogger.testutils.CoroutineRule
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.newSingleThreadContext
-import kotlinx.coroutines.test.resetMain
 import kotlinx.coroutines.test.runTest
-import kotlinx.coroutines.test.setMain
-import org.junit.After
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
