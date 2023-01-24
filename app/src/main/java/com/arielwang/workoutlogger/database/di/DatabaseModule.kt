@@ -4,7 +4,7 @@ import android.content.Context
 import androidx.room.Room
 import com.arielwang.workoutlogger.database.AppDatabase
 import com.arielwang.workoutlogger.database.daos.ExerciseCardDao
-import com.arielwang.workoutlogger.database.daos.ExerciseDao
+import com.arielwang.workoutlogger.database.daos.WorkoutDao
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -30,7 +30,7 @@ internal abstract class DatabaseModule {
     @Provides
     fun provideExerciseDao(
       database: AppDatabase
-    ): ExerciseDao = database.exerciseDao()
+    ): WorkoutDao = database.exerciseDao()
 
     @Provides
     fun provideExerciseCardDao(

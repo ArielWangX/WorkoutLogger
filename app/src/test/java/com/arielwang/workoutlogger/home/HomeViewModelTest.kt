@@ -1,8 +1,8 @@
 package com.arielwang.workoutlogger.home
 
 import app.cash.turbine.test
-import com.arielwang.workoutlogger.database.model.ExerciseFlow
-import com.arielwang.workoutlogger.features.addexerciseflow.exercise.ui.screen.ExerciseDestination
+import com.arielwang.workoutlogger.database.model.WorkoutAddingFlow
+import com.arielwang.workoutlogger.features.workoutaddingflow.exercise.ui.screen.ExerciseDestination
 import com.arielwang.workoutlogger.features.home.domain.repository.HomeRepository
 import com.arielwang.workoutlogger.features.home.ui.screen.HomeView
 import com.arielwang.workoutlogger.features.home.ui.screen.HomeViewModel
@@ -11,7 +11,6 @@ import com.arielwang.workoutlogger.navigate.FakeNavigatorRule
 import com.arielwang.workoutlogger.testutils.CoroutineRule
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runTest
-import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import kotlin.test.assertEquals
@@ -27,8 +26,8 @@ class HomeViewModelTest {
 
     private val fakeNavigator = navigatorRule.navigator
     private val fakeHomeRepository = object : HomeRepository {
-        override suspend fun getAllExercises(): List<ExerciseFlow> = listOf(
-            ExerciseFlow(
+        override suspend fun getAllExercises(): List<WorkoutAddingFlow> = listOf(
+            WorkoutAddingFlow(
                 type = listOf("Chest", "Abs"),
                 weight = 56,
                 reps = 2,
