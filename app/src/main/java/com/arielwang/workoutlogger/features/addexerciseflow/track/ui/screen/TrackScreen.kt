@@ -1,9 +1,9 @@
 package com.arielwang.workoutlogger.features.addexerciseflow.track.ui.screen
 
+import android.content.Context
+import android.widget.Toast
 import androidx.compose.foundation.border
-import androidx.compose.foundation.gestures.scrollable
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.relocation.bringIntoViewRequester
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardActions
@@ -13,12 +13,13 @@ import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.focus.onFocusChanged
-import androidx.compose.ui.focus.onFocusEvent
+import androidx.compose.ui.focus.FocusDirection
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.vectorResource
@@ -32,11 +33,7 @@ import androidx.constraintlayout.compose.ConstraintLayout
 import com.arielwang.workoutlogger.R
 import com.arielwang.workoutlogger.features.component.PrimaryButton
 import com.arielwang.workoutlogger.features.component.ScaffoldWithTopBar
-import com.google.accompanist.insets.imePadding
 import com.google.accompanist.insets.navigationBarsWithImePadding
-import kotlinx.coroutines.coroutineScope
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
 
 @Composable
 fun TrackScreen(
@@ -105,11 +102,15 @@ fun SectionList(
     }
 }
 
+@OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun CommentSection(
     uiState: TrackView.State,
     onAction: (TrackView.Action) -> Unit
 ) {
+    val keyboardController = LocalSoftwareKeyboardController.current
+    val focusManager = LocalFocusManager.current
+
     SectionTitle(
         text = stringResource(R.string.TrackScreen_commentSection),
         modifier = Modifier.fillMaxWidth()
@@ -118,11 +119,19 @@ fun CommentSection(
             onAction = onAction,
             value = uiState.commentText,
             onValueChange = { onAction(TrackView.Action.OnTextFieldValueChangeCommentText(it)) },
+            placeHolderText = stringResource(id = R.string.TrackScreen_commentSection_placeHolderText),
             textAlign = TextAlign.Start,
             shape = MaterialTheme.shapes.large,
             type = TrackTextFieldType.TEXT,
             singleLine = false,
             keyboardType = KeyboardType.Text,
+            imeAction = ImeAction.Done,
+            keyboardActions = KeyboardActions(
+                onDone = {
+                    keyboardController?.hide()
+                    focusManager.clearFocus()
+                }
+            ),
             modifier = Modifier
                 .navigationBarsWithImePadding()
                 .fillMaxWidth()
@@ -149,15 +158,25 @@ fun RepsSection(
     uiState: TrackView.State,
     onAction: (TrackView.Action) -> Unit
 ) {
+    val focusManager = LocalFocusManager.current
+    val context = LocalContext.current
+
     SectionTitle(
         text = stringResource(R.string.TrackScreen_repsSection),
         modifier = Modifier.fillMaxWidth()
     ) {
-        CounterAndNumber(
+        CounterAndTextField(
             onAction = onAction,
-            value = uiState.repsNumber,
-            onValueChange = { onAction(TrackView.Action.onTextFieldValueChangeRepsNumber(it)) },
-            textFieldInWhichSection = TrackViewModel.TrackTextFieldInWhichSection.REPSTEXTFIELD
+            value = if (uiState.repsNumber.maxChar) {
+                maxCharAlert(4, context)
+                uiState.repsNumber.text
+            } else uiState.repsNumber.text,
+            onValueChange = { onAction(TrackView.Action.OnTextFieldValueChangeRepsNumber(it)) },
+            placeHolderText = stringResource(id = R.string.TrackScreen_repsSection_placeHolderText),
+            textFieldInWhichSection = TrackViewModel.TrackTextFieldInWhichSection.REPSTEXTFIELD,
+            keyboardActions = KeyboardActions(
+                onNext = { focusManager.moveFocus(FocusDirection.Left) }
+            )
         )
     }
 }
@@ -167,15 +186,22 @@ fun WeightSection(
     uiState: TrackView.State,
     onAction: (TrackView.Action) -> Unit
 ) {
+    val context = LocalContext.current
+
     SectionTitle(
         text = stringResource(R.string.TrackScreen_weightSection),
         modifier = Modifier.fillMaxWidth()
     ) {
-        CounterAndNumber(
+        CounterAndTextField(
             onAction = onAction,
-            value = uiState.weightNumber,
-            onValueChange = { onAction(TrackView.Action.onTextFieldValueChangeWeightNumber(it)) },
-            textFieldInWhichSection = TrackViewModel.TrackTextFieldInWhichSection.WEIGHTTEXTFIELD
+            value = if (uiState.weightNumber.maxChar) {
+                maxCharAlert(3, context)
+                uiState.weightNumber.text
+            } else uiState.weightNumber.text,
+            onValueChange = { onAction(TrackView.Action.OnTextFieldValueChangeWeightNumber(it)) },
+            placeHolderText = stringResource(id = R.string.TrackScreen_weightSection_placeHolderText),
+            textFieldInWhichSection = TrackViewModel.TrackTextFieldInWhichSection.WEIGHTTEXTFIELD,
+            keyboardActions = KeyboardActions(onDone = null)
         )
     }
 }
@@ -204,11 +230,13 @@ fun SectionTitle(
 }
 
 @Composable
-fun CounterAndNumber(
+fun CounterAndTextField(
     onAction: (TrackView.Action) -> Unit,
     value: String,
     onValueChange: (String) -> Unit,
-    textFieldInWhichSection: TrackViewModel.TrackTextFieldInWhichSection
+    placeHolderText: String,
+    textFieldInWhichSection: TrackViewModel.TrackTextFieldInWhichSection,
+    keyboardActions: KeyboardActions
 ) {
     Row(
         modifier = Modifier
@@ -227,7 +255,8 @@ fun CounterAndNumber(
             onAction = onAction,
             value = value,
             onValueChange = onValueChange,
-            placeHolderText = "0",
+            placeHolderText = placeHolderText,
+            keyboardActions = keyboardActions,
             modifier = Modifier.weight(1f)
         )
 
@@ -267,6 +296,9 @@ fun TimeTextFieldGroup(
     uiState: TrackView.State,
     onAction: (TrackView.Action) -> Unit
 ) {
+    val focusManager = LocalFocusManager.current
+    val context = LocalContext.current
+
     Row(
         modifier = Modifier
             .padding(horizontal = 16.dp)
@@ -274,9 +306,31 @@ fun TimeTextFieldGroup(
     ) {
         TrackTextField(
             onAction = onAction,
-            value = uiState.hours,
-            onValueChange = { onAction(TrackView.Action.onTextFieldValueChangeHours(it)) },
-            placeHolderText = stringResource(id = R.string.TrackScreen_timeSectionHours),
+            value = if (uiState.hours.maxChar) {
+                maxCharAlert(2, context)
+                uiState.hours.text
+            } else uiState.hours.text,
+            onValueChange = { onAction(TrackView.Action.OnTextFieldValueChangeHours(it)) },
+            placeHolderText = stringResource(id = R.string.TrackScreen_timeSectionHours_placeHolderText),
+            shape = MaterialTheme.shapes.large,
+            keyboardActions = KeyboardActions(
+                onNext = { focusManager.moveFocus(FocusDirection.Right) }
+            ),
+            modifier = Modifier
+                .weight(1f)
+                .fillMaxWidth()
+        )
+
+        Spacer(modifier = Modifier.padding(8.dp))
+
+        TrackTextField(
+            onAction = onAction,
+            value = if (uiState.minutes.maxChar) {
+                maxCharAlert(2, context)
+                uiState.minutes.text
+            } else uiState.minutes.text,
+            onValueChange = { onAction(TrackView.Action.OnTextFieldValueChangeMinutes(it)) },
+            placeHolderText = stringResource(id = R.string.TrackScreen_timeSectionMinutes_placeHolderText),
             shape = MaterialTheme.shapes.large,
             modifier = Modifier
                 .weight(1f)
@@ -287,22 +341,12 @@ fun TimeTextFieldGroup(
 
         TrackTextField(
             onAction = onAction,
-            value = uiState.minutes,
-            onValueChange = { onAction(TrackView.Action.onTextFieldValueChangeMinutes(it)) },
-            placeHolderText = stringResource(id = R.string.TrackScreen_timeSectionMinutes),
-            shape = MaterialTheme.shapes.large,
-            modifier = Modifier
-                .weight(1f)
-                .fillMaxWidth()
-        )
-
-        Spacer(modifier = Modifier.padding(8.dp))
-
-        TrackTextField(
-            onAction = onAction,
-            value = uiState.seconds,
-            onValueChange = { onAction(TrackView.Action.onTextFieldValueChangeSeconds(it)) },
-            placeHolderText = stringResource(id = R.string.TrackScreen_timeSectionSeconds),
+            value = if (uiState.seconds.maxChar) {
+                maxCharAlert(2, context)
+                uiState.seconds.text
+            } else uiState.seconds.text,
+            onValueChange = { onAction(TrackView.Action.OnTextFieldValueChangeSeconds(it)) },
+            placeHolderText = stringResource(id = R.string.TrackScreen_timeSectionSeconds_placeHolderText),
             shape = MaterialTheme.shapes.large,
             modifier = Modifier
                 .weight(1f)
@@ -311,22 +355,21 @@ fun TimeTextFieldGroup(
     }
 }
 
-@OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun TrackTextField(
     onAction: (TrackView.Action) -> Unit,
     value: String,
     onValueChange: (String) -> Unit,
-    placeHolderText: String? = null,
+    placeHolderText: String,
     shape: Shape? = null,
     textAlign: TextAlign = TextAlign.Center,
     type: TrackTextFieldType = TrackTextFieldType.NUMBER,
     singleLine: Boolean = true,
-    keyboardType: KeyboardType = KeyboardType.Number,
+    keyboardType: KeyboardType = KeyboardType.NumberPassword,
+    imeAction: ImeAction = ImeAction.Next,
+    keyboardActions: KeyboardActions = KeyboardActions(onDone = null),
     modifier: Modifier = Modifier.height(56.dp)
 ) {
-    val keyboardController = LocalSoftwareKeyboardController.current
-
     TextField(
         modifier = modifier
             .fillMaxWidth()
@@ -360,14 +403,13 @@ fun TrackTextField(
                                 contentDescription = stringResource(id = R.string.TrackScreen_commentSectionIconDescription)
                             )
                         }
-                    } else {
                     }
                 }
             }
         },
         placeholder = {
             Text(
-                text = placeHolderText ?: "",
+                text = placeHolderText,
                 textAlign = TextAlign.Center,
                 modifier = Modifier.fillMaxWidth()
             )
@@ -376,14 +418,24 @@ fun TrackTextField(
         shape = shape ?: RectangleShape,
         keyboardOptions = KeyboardOptions(
             keyboardType = keyboardType,
-            imeAction = ImeAction.Done
+            imeAction = imeAction
         ),
-        keyboardActions = KeyboardActions(
-            onDone = { keyboardController?.hide() }
-        )
+        keyboardActions = keyboardActions
     )
+}
+
+fun maxCharAlert(
+    maxChar: Int,
+    context: Context
+) {
+    Toast.makeText(
+        context,
+        "Cannot be more than $maxChar Characters",
+        Toast.LENGTH_SHORT
+    ).show()
 }
 
 enum class TrackTextFieldType {
     NUMBER, TEXT
 }
+

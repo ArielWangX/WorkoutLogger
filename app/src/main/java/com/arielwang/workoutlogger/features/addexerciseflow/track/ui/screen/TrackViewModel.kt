@@ -15,29 +15,38 @@ import javax.inject.Inject
 
 object TrackView {
     data class State(
-        var weightNumber: String = "0.0",
-        var repsNumber: String = "0",
-        var hours: String = "0",
-        var minutes: String = "0",
-        var seconds: String = "0",
-        var commentText: String = ""
+        val weightNumber: TextFieldProperty = TextFieldProperty(text = ""),
+        val repsNumber: TextFieldProperty = TextFieldProperty(text = ""),
+        val hours: TextFieldProperty = TextFieldProperty(text = ""),
+        val minutes: TextFieldProperty = TextFieldProperty(text = ""),
+        val seconds: TextFieldProperty = TextFieldProperty(text = ""),
+        val commentText: String = ""
     )
 
     sealed class Action {
-        data class onTextFieldValueChangeWeightNumber(val text: String) : Action()
-        data class onTextFieldValueChangeRepsNumber(val text: String) : Action()
-        data class onTextFieldValueChangeHours(val text: String) : Action()
-        data class onTextFieldValueChangeMinutes(val text: String) : Action()
-        data class onTextFieldValueChangeSeconds(val text: String) : Action()
+        data class OnTextFieldValueChangeWeightNumber(val text: String) : Action()
+        data class OnTextFieldValueChangeRepsNumber(val text: String) : Action()
+        data class OnTextFieldValueChangeHours(val text: String) : Action()
+        data class OnTextFieldValueChangeMinutes(val text: String) : Action()
+        data class OnTextFieldValueChangeSeconds(val text: String) : Action()
         data class OnTextFieldValueChangeCommentText(val text: String) : Action()
-        data class OnMinusCounterClick(val textFieldInWhichSection: TrackViewModel.TrackTextFieldInWhichSection) : Action()
-        data class OnPlusCounterClick(val textFieldInWhichSection: TrackViewModel.TrackTextFieldInWhichSection) : Action()
+        data class OnMinusCounterClick(val textFieldInWhichSection: TrackViewModel.TrackTextFieldInWhichSection) :
+            Action()
+
+        data class OnPlusCounterClick(val textFieldInWhichSection: TrackViewModel.TrackTextFieldInWhichSection) :
+            Action()
+
         object ClearComment : Action()
         object GoToNextPage : Action()
         object GoBackToPreviousPage : Action()
 
     }
 }
+
+data class TextFieldProperty(
+    var text: String = "",
+    var maxChar: Boolean = false
+)
 
 @HiltViewModel
 class TrackViewModel @Inject constructor(
@@ -56,13 +65,14 @@ class TrackViewModel @Inject constructor(
             is TrackView.Action.GoToNextPage -> {
                 viewModelScope.launch {
                     val types = exerciseSharedStateManager.getState().type
+
                     val exercise = ExerciseFlow(
                         type = types,
-                        weight = viewState.weightNumber.toDouble(),
-                        reps = viewState.repsNumber.toInt(),
-                        hours = viewState.hours.toInt(),
-                        mins = viewState.minutes.toInt(),
-                        secs = viewState.seconds.toInt(),
+                        weight = setDefaultTextFieldValue(viewState.weightNumber.text).toInt(),
+                        reps = setDefaultTextFieldValue(viewState.repsNumber.text).toInt(),
+                        hours = setDefaultTextFieldValue(viewState.hours.text).toInt(),
+                        mins = setDefaultTextFieldValue(viewState.minutes.text).toInt(),
+                        secs = setDefaultTextFieldValue(viewState.seconds.text).toInt(),
                         comment = viewState.commentText
                     )
                     trackRepository.insertExercise(exercise)
@@ -75,16 +85,24 @@ class TrackViewModel @Inject constructor(
             }
 
             is TrackView.Action.OnMinusCounterClick -> {
-                when(action.textFieldInWhichSection) {
+                when (action.textFieldInWhichSection) {
                     TrackTextFieldInWhichSection.WEIGHTTEXTFIELD -> {
                         viewState = viewState.copy(
-                            weightNumber = (viewState.weightNumber.toDouble() - 1).toString()
+                            weightNumber = TextFieldProperty(
+                                text = noNegativeNumber(
+                                    setDefaultTextFieldValue(viewState.weightNumber.text)
+                                )
+                            )
                         )
                         emitViewState()
                     }
                     TrackTextFieldInWhichSection.REPSTEXTFIELD -> {
                         viewState = viewState.copy(
-                            repsNumber = (viewState.repsNumber.toInt() - 1).toString()
+                            repsNumber = TextFieldProperty(
+                                text = noNegativeNumber(
+                                    setDefaultTextFieldValue(viewState.repsNumber.text)
+                                )
+                            )
                         )
                         emitViewState()
                     }
@@ -92,53 +110,67 @@ class TrackViewModel @Inject constructor(
             }
 
             is TrackView.Action.OnPlusCounterClick -> {
-                when(action.textFieldInWhichSection) {
+                when (action.textFieldInWhichSection) {
                     TrackTextFieldInWhichSection.WEIGHTTEXTFIELD -> {
                         viewState = viewState.copy(
-                            weightNumber = (viewState.weightNumber.toDouble() + 1).toString()
+                            weightNumber = TextFieldProperty(
+                                text = (
+                                        setDefaultTextFieldValue(viewState.weightNumber.text).toInt() + 1
+                                        ).toString()
+                            )
                         )
                         emitViewState()
                     }
                     TrackTextFieldInWhichSection.REPSTEXTFIELD -> {
                         viewState = viewState.copy(
-                            repsNumber = (viewState.repsNumber.toInt() + 1).toString()
+                            repsNumber = TextFieldProperty(
+                                text = (
+                                        setDefaultTextFieldValue(viewState.repsNumber.text).toInt() + 1
+                                        ).toString()
+                            )
                         )
                         emitViewState()
                     }
                 }
             }
 
-            is TrackView.Action.onTextFieldValueChangeWeightNumber -> {
+            is TrackView.Action.OnTextFieldValueChangeWeightNumber -> {
                 viewState = viewState.copy(
-                    weightNumber = action.text
+                    weightNumber = maximumTextFieldInput(
+                        setDefaultTextFieldValue(action.text),
+                        3
+                    )
                 )
                 emitViewState()
             }
 
-            is TrackView.Action.onTextFieldValueChangeRepsNumber -> {
+            is TrackView.Action.OnTextFieldValueChangeRepsNumber -> {
                 viewState = viewState.copy(
-                    repsNumber = action.text
+                    repsNumber = maximumTextFieldInput(
+                        setDefaultTextFieldValue(action.text),
+                        4
+                    )
                 )
                 emitViewState()
             }
 
-            is TrackView.Action.onTextFieldValueChangeHours -> {
+            is TrackView.Action.OnTextFieldValueChangeHours -> {
                 viewState = viewState.copy(
-                    hours = action.text
+                    hours = maximumTextFieldInput(action.text, 2)
                 )
                 emitViewState()
             }
 
-            is TrackView.Action.onTextFieldValueChangeMinutes -> {
+            is TrackView.Action.OnTextFieldValueChangeMinutes -> {
                 viewState = viewState.copy(
-                    minutes = action.text
+                    minutes = maximumTextFieldInput(action.text, 2)
                 )
                 emitViewState()
             }
 
-            is TrackView.Action.onTextFieldValueChangeSeconds -> {
+            is TrackView.Action.OnTextFieldValueChangeSeconds -> {
                 viewState = viewState.copy(
-                    seconds = action.text
+                    seconds = maximumTextFieldInput(action.text, 2)
                 )
                 emitViewState()
             }
@@ -161,6 +193,38 @@ class TrackViewModel @Inject constructor(
 
     private fun emitViewState() {
         _uiState.value = viewState
+    }
+
+    // the value of TextField cannot be negative
+    private fun noNegativeNumber(text: String): String {
+        return if ((text.toInt() - 1) < 0) {
+            "0"
+        } else {
+            (text.toInt() - 1).toString()
+        }
+    }
+
+    // Set maximum input length of TextField
+    private fun maximumTextFieldInput(
+        text: String,
+        maxChar: Int
+    ): TextFieldProperty {
+        val validateInput = TextFieldProperty(text = "")
+        val textStartedFromNonZero = text.dropWhile { it.toString() == "0" }
+
+        if (text.length <= maxChar) {
+            validateInput.text = textStartedFromNonZero
+        } else {
+            validateInput.text = textStartedFromNonZero.slice(0 until maxChar)
+            validateInput.maxChar = !validateInput.maxChar
+        }
+
+        return validateInput
+    }
+
+    // if the value of TextField is "", set default value "0" for calculation
+    private fun setDefaultTextFieldValue(text: String): String {
+        return if (text == "") "0" else text
     }
 
     enum class TrackTextFieldInWhichSection {

@@ -19,13 +19,17 @@
     <string name="TrackScreen_counterButtonContentDescriptionPlus">Plus</string>
     <string name="TrackScreen_counterButtonContentDescriptionMinus">Minus</string>
     <string name="TrackScreen_weightSection">Weight (kgs):</string>
+    <string name="TrackScreen_weightSection_placeHolderText">0</string>
     <string name="TrackScreen_repsSection">Reps:</string>
+    <string name="TrackScreen_repsSection_placeHolderText">0</string>
     <string name="TrackScreen_timeSection">Time:</string>
-    <string name="TrackScreen_timeSectionHours">hh</string>
-    <string name="TrackScreen_timeSectionMinutes">mm</string>
-    <string name="TrackScreen_timeSectionSeconds">ss</string>
+    <string name="TrackScreen_timeSectionHours_placeHolderText">hh</string>
+    <string name="TrackScreen_timeSectionMinutes_placeHolderText">mm</string>
+    <string name="TrackScreen_timeSectionSeconds_placeHolderText">ss</string>
     <string name="TrackScreen_commentSection">Comment:</string>
+    <string name="TrackScreen_commentSection_placeHolderText"></string>
     <string name="TrackScreen_commentSectionIconDescription">Clear Text</string>
+
 
 
 </resources>
