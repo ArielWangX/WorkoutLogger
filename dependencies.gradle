@@ -15,7 +15,7 @@ ext {
     lifecycleViewmodelCompose = "2.5.0"
     navigation = "2.5.0"
     window = "1.0.0"
-    room = "2.4.3"
+    room = "2.5.0"
 
     // KotlinCoroutines
     coroutines = "1.6.4"

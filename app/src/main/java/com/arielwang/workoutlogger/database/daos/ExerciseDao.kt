@@ -8,7 +8,7 @@ import com.arielwang.workoutlogger.database.model.ExerciseFlow
 @Dao
 interface ExerciseDao {
   @Query("SELECT * FROM ExerciseFlow")
-  suspend fun getAll(): List<ExerciseFlow>
+  suspend fun getAllExercise(): List<ExerciseFlow>
 
   @Insert
   suspend fun insertExercise(exercise: ExerciseFlow)
