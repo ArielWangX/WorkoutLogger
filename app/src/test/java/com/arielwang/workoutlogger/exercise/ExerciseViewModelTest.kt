@@ -1,12 +1,12 @@
 package com.arielwang.workoutlogger.exercise
 
 import app.cash.turbine.test
-import com.arielwang.workoutlogger.database.model.ExerciseFlow
-import com.arielwang.workoutlogger.features.addexerciseflow.exercise.ui.screen.Card
-import com.arielwang.workoutlogger.features.addexerciseflow.exercise.ui.screen.ExerciseView
-import com.arielwang.workoutlogger.features.addexerciseflow.exercise.ui.screen.ExerciseViewModel
-import com.arielwang.workoutlogger.features.addexerciseflow.shared.domain.ExerciseSharedStateManager
-import com.arielwang.workoutlogger.features.addexerciseflow.track.ui.screen.TrackDestination
+import com.arielwang.workoutlogger.database.model.WorkoutAddingFlow
+import com.arielwang.workoutlogger.features.workoutaddingflow.exercise.ui.screen.Card
+import com.arielwang.workoutlogger.features.workoutaddingflow.exercise.ui.screen.ExerciseView
+import com.arielwang.workoutlogger.features.workoutaddingflow.exercise.ui.screen.ExerciseViewModel
+import com.arielwang.workoutlogger.features.workoutaddingflow.shared.domain.ExerciseTrackSharedStateManager
+import com.arielwang.workoutlogger.features.workoutaddingflow.track.ui.screen.TrackDestination
 import com.arielwang.workoutlogger.navigate.FakeNavigationBehaviour
 import com.arielwang.workoutlogger.navigate.FakeNavigatorRule
 import com.arielwang.workoutlogger.testutils.CoroutineRule
@@ -25,14 +25,14 @@ class ExerciseViewModelTest {
     val coroutineRule = CoroutineRule()
 
     private val fakeNavigator = navigatorRule.navigator
-    private val fakeExerciseSharedStateManager = object : ExerciseSharedStateManager {
-        private var state: ExerciseFlow? = null
+    private val fakeExerciseSharedStateManager = object : ExerciseTrackSharedStateManager {
+        private var state: WorkoutAddingFlow? = null
 
-        override fun updateState(state: ExerciseFlow) {
+        override fun updateState(state: WorkoutAddingFlow) {
             this.state = state
         }
 
-        override fun getState(): ExerciseFlow { return checkNotNull(state) }
+        override fun getState(): WorkoutAddingFlow { return checkNotNull(state) }
 
         override fun deleteState() { state = null }
     }
@@ -82,7 +82,7 @@ class ExerciseViewModelTest {
             )
 
             assertEquals(
-                ExerciseFlow(type = emptyList<String>()),
+                WorkoutAddingFlow(type = emptyList<String>()),
                 fakeExerciseSharedStateManager.getState()
             )
         }

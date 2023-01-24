@@ -1,11 +1,11 @@
 package com.arielwang.workoutlogger.track
 
 import app.cash.turbine.test
-import com.arielwang.workoutlogger.database.model.ExerciseFlow
-import com.arielwang.workoutlogger.features.addexerciseflow.shared.domain.ExerciseSharedStateManager
-import com.arielwang.workoutlogger.features.addexerciseflow.track.domain.repository.TrackRepository
-import com.arielwang.workoutlogger.features.addexerciseflow.track.ui.screen.TrackView
-import com.arielwang.workoutlogger.features.addexerciseflow.track.ui.screen.TrackViewModel
+import com.arielwang.workoutlogger.database.model.WorkoutAddingFlow
+import com.arielwang.workoutlogger.features.workoutaddingflow.shared.domain.ExerciseTrackSharedStateManager
+import com.arielwang.workoutlogger.features.workoutaddingflow.track.domain.repository.TrackRepository
+import com.arielwang.workoutlogger.features.workoutaddingflow.track.ui.screen.TrackView
+import com.arielwang.workoutlogger.features.workoutaddingflow.track.ui.screen.TrackViewModel
 import com.arielwang.workoutlogger.features.home.ui.screen.HomeDestination
 import com.arielwang.workoutlogger.navigate.FakeNavigationBehaviour
 import com.arielwang.workoutlogger.navigate.FakeNavigatorRule
@@ -27,25 +27,25 @@ class TrackViewModelTest {
     private val fakeNavigator = navigatorRule.navigator
 
     private val fakeTrackRepository = object : TrackRepository {
-        private var exercise: ExerciseFlow? = null
+        private var exercise: WorkoutAddingFlow? = null
 
-        override suspend fun insertExercise(exercise: ExerciseFlow) {
+        override suspend fun insertExercise(exercise: WorkoutAddingFlow) {
             this.exercise = exercise
         }
 
-        fun getExercise(): ExerciseFlow { return checkNotNull(exercise) }
+        fun getExercise(): WorkoutAddingFlow { return checkNotNull(exercise) }
     }
 
-    private val fakeExerciseSharedStateManager = object : ExerciseSharedStateManager {
-        private var state: ExerciseFlow? = ExerciseFlow(
+    private val fakeExerciseSharedStateManager = object : ExerciseTrackSharedStateManager {
+        private var state: WorkoutAddingFlow? = WorkoutAddingFlow(
             type = listOf("Abs", "Chest")
         )
 
-        override fun updateState(state: ExerciseFlow) {
+        override fun updateState(state: WorkoutAddingFlow) {
             this.state = state
         }
 
-        override fun getState(): ExerciseFlow {
+        override fun getState(): WorkoutAddingFlow {
             return checkNotNull(state)
         }
 
@@ -62,7 +62,7 @@ class TrackViewModelTest {
             viewModel.onUiAction(submitButton)
 
             assertEquals(
-                ExerciseFlow(
+                WorkoutAddingFlow(
                     type = listOf("Abs", "Chest"),
                     weight = 0,
                     reps = 0,

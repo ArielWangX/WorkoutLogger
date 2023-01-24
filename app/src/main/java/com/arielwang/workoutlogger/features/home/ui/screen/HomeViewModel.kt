@@ -2,8 +2,7 @@ package com.arielwang.workoutlogger.features.home.ui.screen
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.arielwang.workoutlogger.database.model.ExerciseFlow
-import com.arielwang.workoutlogger.features.addexerciseflow.exercise.ui.screen.ExerciseDestination
+import com.arielwang.workoutlogger.features.workoutaddingflow.exercise.ui.screen.ExerciseDestination
 import com.arielwang.workoutlogger.features.home.domain.repository.HomeRepository
 import com.arielwang.workoutlogger.navigate.Navigator
 import dagger.hilt.android.lifecycle.HiltViewModel
