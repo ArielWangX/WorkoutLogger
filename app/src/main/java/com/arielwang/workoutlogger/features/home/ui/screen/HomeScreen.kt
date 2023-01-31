@@ -68,14 +68,13 @@ fun HomeScreenContent(
             color = MaterialTheme.colors.onSecondary
         )
     } else {
-        DisplayExerciseCardList(uiState = uiState, modifier = modifier)
+        DisplayExerciseCardList(uiState = uiState)
     }
 }
 
 @Composable
 fun DisplayExerciseCardList(
-    uiState: HomeView.State,
-    modifier: Modifier
+    uiState: HomeView.State
 ) {
     LazyColumn {
         item {Spacer(modifier = Modifier.height(32.dp))}
