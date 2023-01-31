@@ -14,7 +14,7 @@ import javax.inject.Inject
 object HomeView {
     data class State(
         val workoutForToday : Boolean = false,
-        val exercises: List<String> = emptyList()
+        val workout: List<String> = emptyList()
     )
 
     sealed class Action {
@@ -35,13 +35,13 @@ class HomeViewModel @Inject constructor(
 
     init {
         viewModelScope.launch {
-            val exercises = homeRepository.getAllWorkoutData()
-            val exercisesString = exercises.map {
+            val workoutDataList = homeRepository.getAllWorkoutData()
+            val workoutDataString = workoutDataList.map {
                 "${it.type} \n" +
                 "${it.weight}, ${it.reps}\n ${it.hours}h ${it.mins}min ${it.secs}secs \n ${it.comment}"
             }
 
-            viewState = viewState.copy(exercises = exercisesString)
+            viewState = viewState.copy(workout = workoutDataString)
             emitViewState()
         }
     }

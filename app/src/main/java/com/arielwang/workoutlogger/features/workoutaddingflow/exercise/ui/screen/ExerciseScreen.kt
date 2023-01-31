@@ -56,7 +56,7 @@ fun ExerciseContentConstraintLayout(
     ) {
         val (button, cardListSection) = createRefs()
 
-        ExerciseCardList(
+        ExerciseScreenContent(
             uiState = uiState,
             onAction = onAction,
             modifier = Modifier.constrainAs(cardListSection) {
@@ -74,6 +74,24 @@ fun ExerciseContentConstraintLayout(
             buttonText = stringResource(id = R.string.ExerciseScreen_buttonContent),
             onAction = { onAction(ExerciseView.Action.GoToNextPage) }
         )
+    }
+}
+
+@Composable
+fun ExerciseScreenContent(
+    uiState: ExerciseView.State,
+    onAction: (ExerciseView.Action) -> Unit,
+    modifier: Modifier
+) {
+    if (uiState.cardList.isEmpty()) {
+        Text(
+            text = stringResource(id = R.string.ExerciseScreen_defaultText),
+            modifier = modifier,
+            style = MaterialTheme.typography.subtitle2,
+            color = MaterialTheme.colors.onSecondary
+        )
+    } else {
+        ExerciseCardList(uiState = uiState, onAction = onAction, modifier = modifier)
     }
 }
 
