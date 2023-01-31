@@ -1,7 +1,7 @@
 package com.arielwang.workoutlogger.track
 
 import app.cash.turbine.test
-import com.arielwang.workoutlogger.database.model.WorkoutAddingFlow
+import com.arielwang.workoutlogger.database.model.WorkoutData
 import com.arielwang.workoutlogger.features.workoutaddingflow.shared.domain.ExerciseTrackSharedStateManager
 import com.arielwang.workoutlogger.features.workoutaddingflow.track.domain.repository.TrackRepository
 import com.arielwang.workoutlogger.features.workoutaddingflow.track.ui.screen.TrackView
@@ -27,25 +27,25 @@ class TrackViewModelTest {
     private val fakeNavigator = navigatorRule.navigator
 
     private val fakeTrackRepository = object : TrackRepository {
-        private var exercise: WorkoutAddingFlow? = null
+        private var exercise: WorkoutData? = null
 
-        override suspend fun insertExercise(exercise: WorkoutAddingFlow) {
-            this.exercise = exercise
+        override suspend fun insertWorkout(workoutData: WorkoutData) {
+            this.exercise = workoutData
         }
 
-        fun getExercise(): WorkoutAddingFlow { return checkNotNull(exercise) }
+        fun getExercise(): WorkoutData { return checkNotNull(exercise) }
     }
 
     private val fakeExerciseSharedStateManager = object : ExerciseTrackSharedStateManager {
-        private var state: WorkoutAddingFlow? = WorkoutAddingFlow(
+        private var state: WorkoutData? = WorkoutData(
             type = listOf("Abs", "Chest")
         )
 
-        override fun updateState(state: WorkoutAddingFlow) {
+        override fun updateState(state: WorkoutData) {
             this.state = state
         }
 
-        override fun getState(): WorkoutAddingFlow {
+        override fun getState(): WorkoutData {
             return checkNotNull(state)
         }
 
@@ -62,7 +62,7 @@ class TrackViewModelTest {
             viewModel.onUiAction(submitButton)
 
             assertEquals(
-                WorkoutAddingFlow(
+                WorkoutData(
                     type = listOf("Abs", "Chest"),
                     weight = 0,
                     reps = 0,

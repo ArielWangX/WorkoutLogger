@@ -78,7 +78,7 @@ class ExerciseCardViewModel @Inject constructor(
                     exerciseCardRepository.insertExerciseCard(newExerciseCard)
                 }
 
-                navigator.navigate(ExerciseDestination.route())
+                navigator.navigateUp()
             }
         }
     }

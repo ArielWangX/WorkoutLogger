@@ -8,6 +8,6 @@ import javax.inject.Inject
 class ExerciseRepositoryImpl @Inject constructor(private val dao: ExerciseCardDao):
     ExerciseRepository {
     override suspend fun getAllExerciseCards(): List<ExerciseCard> {
-        return dao.getAllCards()
+        return dao.getAllExerciseCards()
     }
 }

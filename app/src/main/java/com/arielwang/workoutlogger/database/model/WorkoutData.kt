@@ -7,7 +7,7 @@ import androidx.room.TypeConverters
 import com.arielwang.workoutlogger.database.converters.ExerciseTypeConverter
 
 @Entity
-data class WorkoutAddingFlow(
+data class WorkoutData(
     @PrimaryKey(autoGenerate = true) val id: Int = 0,
 
     @TypeConverters(ExerciseTypeConverter::class)

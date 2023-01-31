@@ -1,7 +1,7 @@
 package com.arielwang.workoutlogger.home
 
 import app.cash.turbine.test
-import com.arielwang.workoutlogger.database.model.WorkoutAddingFlow
+import com.arielwang.workoutlogger.database.model.WorkoutData
 import com.arielwang.workoutlogger.features.workoutaddingflow.exercise.ui.screen.ExerciseDestination
 import com.arielwang.workoutlogger.features.home.domain.repository.HomeRepository
 import com.arielwang.workoutlogger.features.home.ui.screen.HomeView
@@ -26,8 +26,8 @@ class HomeViewModelTest {
 
     private val fakeNavigator = navigatorRule.navigator
     private val fakeHomeRepository = object : HomeRepository {
-        override suspend fun getAllExercises(): List<WorkoutAddingFlow> = listOf(
-            WorkoutAddingFlow(
+        override suspend fun getAllWorkoutData(): List<WorkoutData> = listOf(
+            WorkoutData(
                 type = listOf("Chest", "Abs"),
                 weight = 56,
                 reps = 2,

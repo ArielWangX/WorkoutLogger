@@ -3,13 +3,13 @@ package com.arielwang.workoutlogger.database.daos
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.Query
-import com.arielwang.workoutlogger.database.model.WorkoutAddingFlow
+import com.arielwang.workoutlogger.database.model.WorkoutData
 
 @Dao
 interface WorkoutDao {
-  @Query("SELECT * FROM WorkoutAddingFlow")
-  suspend fun getAllExercise(): List<WorkoutAddingFlow>
+  @Query("SELECT * FROM WorkoutData")
+  suspend fun getAllWorkoutData(): List<WorkoutData>
 
   @Insert
-  suspend fun insertExercise(exercise: WorkoutAddingFlow)
+  suspend fun insertWorkout(exercise: WorkoutData)
 }

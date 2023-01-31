@@ -6,21 +6,22 @@ import com.arielwang.workoutlogger.database.converters.ExerciseTypeConverter
 import com.arielwang.workoutlogger.database.daos.ExerciseCardDao
 import com.arielwang.workoutlogger.database.daos.WorkoutDao
 import com.arielwang.workoutlogger.database.model.ExerciseCard
-import com.arielwang.workoutlogger.database.model.WorkoutAddingFlow
+import com.arielwang.workoutlogger.database.model.WorkoutData
 
-const val DATABASE_VERSION = 4
+const val DATABASE_VERSION = 5
 @Database(
-  entities = [WorkoutAddingFlow::class, ExerciseCard::class],
+  entities = [WorkoutData::class, ExerciseCard::class],
   version = DATABASE_VERSION,
   autoMigrations = [
-    AutoMigration (from = 3, to = 4, spec = AppDatabase.MyAutoMigration::class)
+    AutoMigration (from = 4, to = 5, spec = AppDatabase.MyAutoMigration::class)
   ]
 )
 @TypeConverters(ExerciseTypeConverter::class)
 abstract class AppDatabase : RoomDatabase() {
   @RenameTable(fromTableName = "ExerciseFlow", toTableName = "WorkoutAddingFlow")
+  @RenameTable(fromTableName = "WorkoutAddingFlow", toTableName = "WorkoutData")
   class MyAutoMigration : AutoMigrationSpec
 
-  abstract fun exerciseDao(): WorkoutDao
+  abstract fun workoutDao(): WorkoutDao
   abstract fun exerciseCardDao(): ExerciseCardDao
 }
