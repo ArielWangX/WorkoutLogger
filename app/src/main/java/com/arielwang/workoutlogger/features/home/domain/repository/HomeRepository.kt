@@ -1,8 +1,8 @@
 package com.arielwang.workoutlogger.features.home.domain.repository
 
-import com.arielwang.workoutlogger.database.model.WorkoutAddingFlow
+import com.arielwang.workoutlogger.database.model.WorkoutData
 
 
 interface HomeRepository {
-  suspend fun getAllExercises(): List<WorkoutAddingFlow>
+  suspend fun getAllWorkoutData(): List<WorkoutData>
 }

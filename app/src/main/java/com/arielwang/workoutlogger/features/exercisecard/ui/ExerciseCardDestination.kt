@@ -7,7 +7,7 @@ import com.arielwang.workoutlogger.core.ui.screen.screenViewModel
 import com.arielwang.workoutlogger.navigate.NavigationDestination
 import com.arielwang.workoutlogger.navigate.destination.composable
 
-object ExerciseDetailDestination: NavigationDestination {
+object ExerciseCardDestination: NavigationDestination {
 
     private const val EXERCISEDETAIL_ROUTE = "ExerciseDetail"
 
@@ -15,12 +15,12 @@ object ExerciseDetailDestination: NavigationDestination {
 }
 
 internal fun NavGraphBuilder.addExerciseDetailScreen() {
-    with(ExerciseDetailDestination) {
+    with(ExerciseCardDestination) {
         composable(this) {
             screenViewModel<ExerciseCardViewModel>().let { viewModel ->
                 val state: ExerciseCardView.State by viewModel.uiState.collectAsState()
 
-                ExerciseDetailScreen(state) { action -> viewModel.onUiAction(action) }
+                ExerciseCardScreen(state) { action -> viewModel.onUiAction(action) }
             }
         }
     }

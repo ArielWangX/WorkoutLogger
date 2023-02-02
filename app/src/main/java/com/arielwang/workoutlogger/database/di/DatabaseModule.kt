@@ -28,9 +28,9 @@ internal abstract class DatabaseModule {
     }
 
     @Provides
-    fun provideExerciseDao(
+    fun provideWorkoutDao(
       database: AppDatabase
-    ): WorkoutDao = database.exerciseDao()
+    ): WorkoutDao = database.workoutDao()
 
     @Provides
     fun provideExerciseCardDao(

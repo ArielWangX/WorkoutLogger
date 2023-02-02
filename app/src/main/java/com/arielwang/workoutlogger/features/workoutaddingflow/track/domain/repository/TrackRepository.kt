@@ -1,7 +1,7 @@
 package com.arielwang.workoutlogger.features.workoutaddingflow.track.domain.repository
 
-import com.arielwang.workoutlogger.database.model.WorkoutAddingFlow
+import com.arielwang.workoutlogger.database.model.WorkoutData
 
 interface TrackRepository {
-    suspend fun insertExercise(exercise: WorkoutAddingFlow)
+    suspend fun insertWorkout(workoutData: WorkoutData)
 }

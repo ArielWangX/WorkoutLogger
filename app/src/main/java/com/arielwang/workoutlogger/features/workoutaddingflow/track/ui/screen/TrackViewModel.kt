@@ -2,7 +2,7 @@ package com.arielwang.workoutlogger.features.workoutaddingflow.track.ui.screen
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.arielwang.workoutlogger.database.model.WorkoutAddingFlow
+import com.arielwang.workoutlogger.database.model.WorkoutData
 import com.arielwang.workoutlogger.features.workoutaddingflow.shared.domain.ExerciseTrackSharedStateManager
 import com.arielwang.workoutlogger.features.workoutaddingflow.track.domain.repository.TrackRepository
 import com.arielwang.workoutlogger.features.home.ui.screen.HomeDestination
@@ -15,12 +15,13 @@ import javax.inject.Inject
 
 object TrackView {
     data class State(
-        val weightNumber: TextFieldProperty = TextFieldProperty(text = ""),
-        val repsNumber: TextFieldProperty = TextFieldProperty(text = ""),
-        val hours: TextFieldProperty = TextFieldProperty(text = ""),
-        val minutes: TextFieldProperty = TextFieldProperty(text = ""),
-        val seconds: TextFieldProperty = TextFieldProperty(text = ""),
-        val commentText: String = ""
+        val weightNumber: String = "",
+        val repsNumber: String = "",
+        val hours: String = "",
+        val minutes: String = "",
+        val seconds: String = "",
+        val commentText: String = "",
+        val shouldShowMaxCharAlert: ShouldShowMaxCharAlert = ShouldShowMaxCharAlert()
     )
 
     sealed class Action {
@@ -36,6 +37,8 @@ object TrackView {
         data class OnPlusCounterClick(val textFieldInWhichSection: TrackViewModel.TrackTextFieldInWhichSection) :
             Action()
 
+        data class ChangeShouldShowMaxCharState(val shouldShow: Boolean) : Action()
+
         object ClearComment : Action()
         object GoToNextPage : Action()
         object GoBackToPreviousPage : Action()
@@ -43,9 +46,14 @@ object TrackView {
     }
 }
 
-data class TextFieldProperty(
-    var text: String = "",
-    var maxChar: Boolean = false
+data class ShouldShowMaxCharAlert(
+    var shouldShow: Boolean = false,
+    var maxChar: Int = 0
+)
+
+data class ValidTextAndShouldShowMaxCharAlert(
+    var validText: String,
+    var shouldShowMaxCharAlert: ShouldShowMaxCharAlert
 )
 
 @HiltViewModel
@@ -66,16 +74,16 @@ class TrackViewModel @Inject constructor(
                 viewModelScope.launch {
                     val types = exerciseSharedStateManager.getState().type
 
-                    val exercise = WorkoutAddingFlow(
+                    val workoutData = WorkoutData(
                         type = types,
-                        weight = setDefaultTextFieldValue(viewState.weightNumber.text).toInt(),
-                        reps = setDefaultTextFieldValue(viewState.repsNumber.text).toInt(),
-                        hours = setDefaultTextFieldValue(viewState.hours.text).toInt(),
-                        mins = setDefaultTextFieldValue(viewState.minutes.text).toInt(),
-                        secs = setDefaultTextFieldValue(viewState.seconds.text).toInt(),
+                        weight = setDefaultTextFieldValue(viewState.weightNumber).toInt(),
+                        reps = setDefaultTextFieldValue(viewState.repsNumber).toInt(),
+                        hours = setDefaultTextFieldValue(viewState.hours).toInt(),
+                        mins = setDefaultTextFieldValue(viewState.minutes).toInt(),
+                        secs = setDefaultTextFieldValue(viewState.seconds).toInt(),
                         comment = viewState.commentText
                     )
-                    trackRepository.insertExercise(exercise)
+                    trackRepository.insertWorkout(workoutData)
                 }
                 navigator.navigate(HomeDestination.route())
             }
@@ -88,21 +96,17 @@ class TrackViewModel @Inject constructor(
                 when (action.textFieldInWhichSection) {
                     TrackTextFieldInWhichSection.WEIGHTTEXTFIELD -> {
                         viewState = viewState.copy(
-                            weightNumber = TextFieldProperty(
-                                text = noNegativeNumber(
-                                    setDefaultTextFieldValue(viewState.weightNumber.text)
-                                )
-                            )
+                            weightNumber = coerceAtLeastZero(
+                                setDefaultTextFieldValue(viewState.weightNumber).toInt() - 1
+                            ).toString()
                         )
                         emitViewState()
                     }
                     TrackTextFieldInWhichSection.REPSTEXTFIELD -> {
                         viewState = viewState.copy(
-                            repsNumber = TextFieldProperty(
-                                text = noNegativeNumber(
-                                    setDefaultTextFieldValue(viewState.repsNumber.text)
-                                )
-                            )
+                            repsNumber = coerceAtLeastZero(
+                                setDefaultTextFieldValue(viewState.repsNumber).toInt() - 1
+                            ).toString()
                         )
                         emitViewState()
                     }
@@ -113,21 +117,13 @@ class TrackViewModel @Inject constructor(
                 when (action.textFieldInWhichSection) {
                     TrackTextFieldInWhichSection.WEIGHTTEXTFIELD -> {
                         viewState = viewState.copy(
-                            weightNumber = TextFieldProperty(
-                                text = (
-                                        setDefaultTextFieldValue(viewState.weightNumber.text).toInt() + 1
-                                        ).toString()
-                            )
+                            weightNumber = (setDefaultTextFieldValue(viewState.weightNumber).toInt() + 1).toString()
                         )
                         emitViewState()
                     }
                     TrackTextFieldInWhichSection.REPSTEXTFIELD -> {
                         viewState = viewState.copy(
-                            repsNumber = TextFieldProperty(
-                                text = (
-                                        setDefaultTextFieldValue(viewState.repsNumber.text).toInt() + 1
-                                        ).toString()
-                            )
+                            repsNumber = (setDefaultTextFieldValue(viewState.repsNumber).toInt() + 1).toString()
                         )
                         emitViewState()
                     }
@@ -135,42 +131,55 @@ class TrackViewModel @Inject constructor(
             }
 
             is TrackView.Action.OnTextFieldValueChangeWeightNumber -> {
+                val onTextFieldChange = maximumInputLengthInTextField(
+                    setDefaultTextFieldValue(action.text),
+                    3
+                )
                 viewState = viewState.copy(
-                    weightNumber = maximumTextFieldInput(
-                        setDefaultTextFieldValue(action.text),
-                        3
-                    )
+                    weightNumber = onTextFieldChange.validText,
+                    shouldShowMaxCharAlert = onTextFieldChange.shouldShowMaxCharAlert
                 )
                 emitViewState()
             }
 
             is TrackView.Action.OnTextFieldValueChangeRepsNumber -> {
+                val onTextFieldChange = maximumInputLengthInTextField(
+                    setDefaultTextFieldValue(action.text),
+                    4
+                )
                 viewState = viewState.copy(
-                    repsNumber = maximumTextFieldInput(
-                        setDefaultTextFieldValue(action.text),
-                        4
-                    )
+                    repsNumber = onTextFieldChange.validText,
+                    shouldShowMaxCharAlert = onTextFieldChange.shouldShowMaxCharAlert
                 )
                 emitViewState()
             }
 
             is TrackView.Action.OnTextFieldValueChangeHours -> {
+                val onTextFieldChange = maximumInputLengthInTextField(action.text, 2)
+
                 viewState = viewState.copy(
-                    hours = maximumTextFieldInput(action.text, 2)
+                    hours = onTextFieldChange.validText,
+                    shouldShowMaxCharAlert = onTextFieldChange.shouldShowMaxCharAlert
                 )
                 emitViewState()
             }
 
             is TrackView.Action.OnTextFieldValueChangeMinutes -> {
+                val onTextFieldChange = maximumInputLengthInTextField(action.text, 2)
+
                 viewState = viewState.copy(
-                    minutes = maximumTextFieldInput(action.text, 2)
+                    minutes = onTextFieldChange.validText,
+                    shouldShowMaxCharAlert = onTextFieldChange.shouldShowMaxCharAlert
                 )
                 emitViewState()
             }
 
             is TrackView.Action.OnTextFieldValueChangeSeconds -> {
+                val onTextFieldChange = maximumInputLengthInTextField(action.text, 2)
+
                 viewState = viewState.copy(
-                    seconds = maximumTextFieldInput(action.text, 2)
+                    seconds = onTextFieldChange.validText,
+                    shouldShowMaxCharAlert = onTextFieldChange.shouldShowMaxCharAlert
                 )
                 emitViewState()
             }
@@ -188,6 +197,12 @@ class TrackViewModel @Inject constructor(
                 )
                 emitViewState()
             }
+            is TrackView.Action.ChangeShouldShowMaxCharState -> {
+                viewState = viewState.copy(
+                    shouldShowMaxCharAlert = ShouldShowMaxCharAlert(shouldShow = action.shouldShow)
+                )
+                emitViewState()
+            }
         }
     }
 
@@ -195,31 +210,34 @@ class TrackViewModel @Inject constructor(
         _uiState.value = viewState
     }
 
-    // the value of TextField cannot be negative
-    private fun noNegativeNumber(text: String): String {
-        return if ((text.toInt() - 1) < 0) {
-            "0"
-        } else {
-            (text.toInt() - 1).toString()
-        }
+    // the minimum value of the TextField is zero
+    private fun coerceAtLeastZero(number: Int): Int {
+        return number.coerceAtLeast(0)
     }
 
-    // Set maximum input length of TextField
-    private fun maximumTextFieldInput(
+    // Adding a condition to limit maximum input length in TextField
+    // if the length of user input is less or equal than maximum input length, input stay the same
+    // else, slice the user input length to maximum input length
+    //       and change the value of shouldShow to true.
+    private fun maximumInputLengthInTextField(
         text: String,
         maxChar: Int
-    ): TextFieldProperty {
-        val validateInput = TextFieldProperty(text = "")
+    ): ValidTextAndShouldShowMaxCharAlert {
+        val validInput: String
+        var shouldShow = false
         val textStartedFromNonZero = text.dropWhile { it.toString() == "0" }
 
         if (text.length <= maxChar) {
-            validateInput.text = textStartedFromNonZero
+            validInput = textStartedFromNonZero
         } else {
-            validateInput.text = textStartedFromNonZero.slice(0 until maxChar)
-            validateInput.maxChar = !validateInput.maxChar
+            validInput = textStartedFromNonZero.slice(0 until maxChar)
+            shouldShow = true
         }
 
-        return validateInput
+        return ValidTextAndShouldShowMaxCharAlert(
+            validText = validInput,
+            shouldShowMaxCharAlert = ShouldShowMaxCharAlert(shouldShow, maxChar)
+        )
     }
 
     // if the value of TextField is "", set default value "0" for calculation

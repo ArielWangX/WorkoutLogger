@@ -1,7 +1,7 @@
 package com.arielwang.workoutlogger.exercise
 
 import app.cash.turbine.test
-import com.arielwang.workoutlogger.database.model.WorkoutAddingFlow
+import com.arielwang.workoutlogger.database.model.WorkoutData
 import com.arielwang.workoutlogger.features.workoutaddingflow.exercise.ui.screen.Card
 import com.arielwang.workoutlogger.features.workoutaddingflow.exercise.ui.screen.ExerciseView
 import com.arielwang.workoutlogger.features.workoutaddingflow.exercise.ui.screen.ExerciseViewModel
@@ -26,13 +26,13 @@ class ExerciseViewModelTest {
 
     private val fakeNavigator = navigatorRule.navigator
     private val fakeExerciseSharedStateManager = object : ExerciseTrackSharedStateManager {
-        private var state: WorkoutAddingFlow? = null
+        private var state: WorkoutData? = null
 
-        override fun updateState(state: WorkoutAddingFlow) {
+        override fun updateState(state: WorkoutData) {
             this.state = state
         }
 
-        override fun getState(): WorkoutAddingFlow { return checkNotNull(state) }
+        override fun getState(): WorkoutData { return checkNotNull(state) }
 
         override fun deleteState() { state = null }
     }
@@ -82,7 +82,7 @@ class ExerciseViewModelTest {
             )
 
             assertEquals(
-                WorkoutAddingFlow(type = emptyList<String>()),
+                WorkoutData(type = emptyList<String>()),
                 fakeExerciseSharedStateManager.getState()
             )
         }

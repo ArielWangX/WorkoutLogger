@@ -35,7 +35,7 @@ class HomeViewModel @Inject constructor(
 
     init {
         viewModelScope.launch {
-            val exercises = homeRepository.getAllExercises()
+            val exercises = homeRepository.getAllWorkoutData()
             val exercisesString = exercises.map {
                 "${it.type} \n" +
                 "${it.weight}, ${it.reps}\n ${it.hours}h ${it.mins}min ${it.secs}secs \n ${it.comment}"

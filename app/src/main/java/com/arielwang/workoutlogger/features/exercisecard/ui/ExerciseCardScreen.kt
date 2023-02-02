@@ -26,7 +26,7 @@ import com.arielwang.workoutlogger.features.component.WorkoutLoggerScaffold
 import com.google.accompanist.insets.navigationBarsWithImePadding
 
 @Composable
-fun ExerciseDetailScreen(
+fun ExerciseCardScreen(
     uiState: ExerciseCardView.State = ExerciseCardView.State(),
     onAction: (ExerciseCardView.Action) -> Unit = {}
 ) {

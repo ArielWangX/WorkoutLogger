@@ -6,7 +6,7 @@ import com.arielwang.workoutlogger.database.model.ExerciseCard
 @Dao
 interface ExerciseCardDao {
     @Query("SELECT * FROM ExerciseCard")
-    suspend fun getAllCards(): List<ExerciseCard>
+    suspend fun getAllExerciseCards(): List<ExerciseCard>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertExerciseCard(exerciseCard: ExerciseCard)

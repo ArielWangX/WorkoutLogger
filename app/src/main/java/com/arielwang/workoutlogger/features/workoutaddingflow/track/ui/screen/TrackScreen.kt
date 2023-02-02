@@ -55,6 +55,9 @@ fun TrackScreenConstraintLayout(
     uiState: TrackView.State,
     onAction: (TrackView.Action) -> Unit
 ) {
+    val context = LocalContext.current
+    AlertMaxCharToast(uiState, onAction, uiState.shouldShowMaxCharAlert.maxChar, context)
+
     ConstraintLayout(
         modifier = Modifier
             .fillMaxSize()
@@ -156,7 +159,6 @@ fun RepsSection(
     onAction: (TrackView.Action) -> Unit
 ) {
     val focusManager = LocalFocusManager.current
-    val context = LocalContext.current
 
     SectionTitle(
         text = stringResource(R.string.TrackScreen_repsSection),
@@ -164,10 +166,7 @@ fun RepsSection(
     ) {
         CounterAndTextField(
             onAction = onAction,
-            value = if (uiState.repsNumber.maxChar) {
-                maxCharAlert(4, context)
-                uiState.repsNumber.text
-            } else uiState.repsNumber.text,
+            value = uiState.repsNumber,
             onValueChange = { onAction(TrackView.Action.OnTextFieldValueChangeRepsNumber(it)) },
             placeHolderText = stringResource(id = R.string.TrackScreen_repsSection_placeHolderText),
             textFieldInWhichSection = TrackViewModel.TrackTextFieldInWhichSection.REPSTEXTFIELD,
@@ -183,19 +182,15 @@ fun WeightSection(
     uiState: TrackView.State,
     onAction: (TrackView.Action) -> Unit
 ) {
-    val context = LocalContext.current
-
     SectionTitle(
         text = stringResource(R.string.TrackScreen_weightSection),
         modifier = Modifier.fillMaxWidth()
     ) {
         CounterAndTextField(
             onAction = onAction,
-            value = if (uiState.weightNumber.maxChar) {
-                maxCharAlert(3, context)
-                uiState.weightNumber.text
-            } else uiState.weightNumber.text,
-            onValueChange = { onAction(TrackView.Action.OnTextFieldValueChangeWeightNumber(it)) },
+            value = uiState.weightNumber,
+            onValueChange = {
+                onAction(TrackView.Action.OnTextFieldValueChangeWeightNumber(it))},
             placeHolderText = stringResource(id = R.string.TrackScreen_weightSection_placeHolderText),
             textFieldInWhichSection = TrackViewModel.TrackTextFieldInWhichSection.WEIGHTTEXTFIELD,
             keyboardActions = KeyboardActions(onDone = null)
@@ -270,7 +265,6 @@ fun TimeTextFieldGroup(
     onAction: (TrackView.Action) -> Unit
 ) {
     val focusManager = LocalFocusManager.current
-    val context = LocalContext.current
 
     Row(
         modifier = Modifier
@@ -278,10 +272,7 @@ fun TimeTextFieldGroup(
             .fillMaxWidth()
     ) {
         WorkoutLoggerTextField(
-            value = if (uiState.hours.maxChar) {
-                maxCharAlert(2, context)
-                uiState.hours.text
-            } else uiState.hours.text,
+            value = uiState.hours,
             onValueChange = { onAction(TrackView.Action.OnTextFieldValueChangeHours(it)) },
             placeHolderText = stringResource(id = R.string.TrackScreen_timeSectionHours_placeHolderText),
             shape = MaterialTheme.shapes.large,
@@ -296,10 +287,7 @@ fun TimeTextFieldGroup(
         Spacer(modifier = Modifier.padding(8.dp))
 
         WorkoutLoggerTextField(
-            value = if (uiState.minutes.maxChar) {
-                maxCharAlert(2, context)
-                uiState.minutes.text
-            } else uiState.minutes.text,
+            value = uiState.minutes,
             onValueChange = { onAction(TrackView.Action.OnTextFieldValueChangeMinutes(it)) },
             placeHolderText = stringResource(id = R.string.TrackScreen_timeSectionMinutes_placeHolderText),
             shape = MaterialTheme.shapes.large,
@@ -311,10 +299,7 @@ fun TimeTextFieldGroup(
         Spacer(modifier = Modifier.padding(8.dp))
 
         WorkoutLoggerTextField(
-            value = if (uiState.seconds.maxChar) {
-                maxCharAlert(2, context)
-                uiState.seconds.text
-            } else uiState.seconds.text,
+            value = uiState.seconds,
             onValueChange = { onAction(TrackView.Action.OnTextFieldValueChangeSeconds(it)) },
             placeHolderText = stringResource(id = R.string.TrackScreen_timeSectionSeconds_placeHolderText),
             shape = MaterialTheme.shapes.large,
@@ -325,14 +310,22 @@ fun TimeTextFieldGroup(
     }
 }
 
-fun maxCharAlert(
+// Toast: alert maximum number of input characters for a TextField.
+@Composable
+fun AlertMaxCharToast(
+    uiState: TrackView.State,
+    onAction: (TrackView.Action) -> Unit,
     maxChar: Int,
     context: Context
 ) {
-    Toast.makeText(
-        context,
-        "Cannot be more than $maxChar Characters",
-        Toast.LENGTH_SHORT
-    ).show()
+    if (uiState.shouldShowMaxCharAlert.shouldShow) {
+        Toast.makeText(
+            context,
+            "Cannot be more than $maxChar characters.",
+            Toast.LENGTH_SHORT
+        ).show()
+
+        onAction(TrackView.Action.ChangeShouldShowMaxCharState(false))
+    }
 }
 
