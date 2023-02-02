@@ -45,7 +45,7 @@ class HomeViewModelTest {
             generateViewModel().uiState.test {
                 assertEquals(
                     HomeView.State(
-                        exercises = listOf(
+                        workout = listOf(
                             "[Chest, Abs] \n" + "56, 2\n 1h 23min 30secs \n Chest exercise for 45min, abs exercise for 45min. Need to add stretching"
                         )
                     ),

@@ -60,27 +60,26 @@ fun HomeScreenContent(
     modifier: Modifier,
     uiState: HomeView.State
 ) {
-    if (uiState.exercises.isEmpty()) {
+    if (uiState.workout.isEmpty()) {
         Text(
-            text = stringResource(id = R.string.HomeScreen_title),
+            text = stringResource(id = R.string.HomeScreen_defaultText),
             modifier = modifier,
             style = MaterialTheme.typography.subtitle2,
             color = MaterialTheme.colors.onSecondary
         )
     } else {
-        DisplayExerciseCardList(uiState = uiState, modifier = modifier)
+        DisplayExerciseCardList(uiState = uiState)
     }
 }
 
 @Composable
 fun DisplayExerciseCardList(
-    uiState: HomeView.State,
-    modifier: Modifier
+    uiState: HomeView.State
 ) {
     LazyColumn {
         item {Spacer(modifier = Modifier.height(32.dp))}
 
-        uiState.exercises.forEach {
+        uiState.workout.forEach {
             item{
                 DisplayExerciseCard(text = it)
             }
