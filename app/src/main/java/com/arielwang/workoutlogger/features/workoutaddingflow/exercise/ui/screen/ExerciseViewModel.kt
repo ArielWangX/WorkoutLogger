@@ -9,9 +9,7 @@ import com.arielwang.workoutlogger.features.workoutaddingflow.track.ui.screen.Tr
 import com.arielwang.workoutlogger.features.exercisecard.ui.ExerciseCardDestination
 import com.arielwang.workoutlogger.navigate.Navigator
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.flow.*
 import javax.inject.Inject
 
 object ExerciseView {
@@ -45,17 +43,15 @@ class ExerciseViewModel @Inject constructor(
     val uiState: StateFlow<ExerciseView.State> = _uiState
 
     init {
-        viewModelScope.launch {
-            val getAllExerciseCards = exerciseRepository.getAllExerciseCards()
-
-            viewState = viewState.copy(
-                cardList = getAllExerciseCards.map {
-                    Card(text = it.name)
-                }
-            )
-
-            emitViewState()
-        }
+        exerciseRepository.getAllExerciseCardsFlow()
+            .onEach { exerciseCards ->
+                viewState = viewState.copy(
+                    cardList = exerciseCards.map {
+                        Card(text = it.name)
+                    }
+                )
+                emitViewState()
+            }.launchIn(viewModelScope)
     }
 
     fun onUiAction(action: ExerciseView.Action) {

@@ -3,7 +3,6 @@ package com.arielwang.workoutlogger.features.exercisecard.ui
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.arielwang.workoutlogger.database.model.ExerciseCard
-import com.arielwang.workoutlogger.features.workoutaddingflow.exercise.ui.screen.ExerciseDestination
 import com.arielwang.workoutlogger.features.exercisecard.domain.ExerciseCardRepository
 import com.arielwang.workoutlogger.navigate.Navigator
 import dagger.hilt.android.lifecycle.HiltViewModel

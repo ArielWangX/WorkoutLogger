@@ -16,11 +16,9 @@ fun WorkoutLoggerScaffold(
     @StringRes iconContentDescription: Int,
     onAction: () -> Unit = {},
     actions: @Composable RowScope.() -> Unit = {},
-    modifier: Modifier,
     content: @Composable (PaddingValues) -> Unit
 ) {
     Scaffold(
-        modifier = modifier,
         topBar = {
             TopAppBar(
                 title = {

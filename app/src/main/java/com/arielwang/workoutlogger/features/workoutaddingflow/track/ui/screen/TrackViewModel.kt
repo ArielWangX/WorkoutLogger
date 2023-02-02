@@ -51,7 +51,7 @@ data class ShouldShowMaxCharAlert(
     var maxChar: Int = 0
 )
 
-data class ValidTextAndShouldShowMaxCharAlert(
+data class ValidTextAndAlertState(
     var validText: String,
     var shouldShowMaxCharAlert: ShouldShowMaxCharAlert
 )
@@ -96,17 +96,17 @@ class TrackViewModel @Inject constructor(
                 when (action.textFieldInWhichSection) {
                     TrackTextFieldInWhichSection.WEIGHTTEXTFIELD -> {
                         viewState = viewState.copy(
-                            weightNumber = coerceAtLeastZero(
+                            weightNumber = (
                                 setDefaultTextFieldValue(viewState.weightNumber).toInt() - 1
-                            ).toString()
+                            ).coerceAtLeast(0).toString()
                         )
                         emitViewState()
                     }
                     TrackTextFieldInWhichSection.REPSTEXTFIELD -> {
                         viewState = viewState.copy(
-                            repsNumber = coerceAtLeastZero(
+                            repsNumber = (
                                 setDefaultTextFieldValue(viewState.repsNumber).toInt() - 1
-                            ).toString()
+                            ).coerceAtLeast(0).toString()
                         )
                         emitViewState()
                     }
@@ -210,19 +210,13 @@ class TrackViewModel @Inject constructor(
         _uiState.value = viewState
     }
 
-    // the minimum value of the TextField is zero
-    private fun coerceAtLeastZero(number: Int): Int {
-        return number.coerceAtLeast(0)
-    }
-
     // Adding a condition to limit maximum input length in TextField
-    // if the length of user input is less or equal than maximum input length, input stay the same
-    // else, slice the user input length to maximum input length
-    //       and change the value of shouldShow to true.
+    // If the length of user input is less or equal than maximum input length, input stay the same.
+    // Else, slice the user input length to maximum input length and change the value of shouldShow to true.
     private fun maximumInputLengthInTextField(
         text: String,
         maxChar: Int
-    ): ValidTextAndShouldShowMaxCharAlert {
+    ): ValidTextAndAlertState {
         val validInput: String
         var shouldShow = false
         val textStartedFromNonZero = text.dropWhile { it.toString() == "0" }
@@ -234,7 +228,7 @@ class TrackViewModel @Inject constructor(
             shouldShow = true
         }
 
-        return ValidTextAndShouldShowMaxCharAlert(
+        return ValidTextAndAlertState(
             validText = validInput,
             shouldShowMaxCharAlert = ShouldShowMaxCharAlert(shouldShow, maxChar)
         )
