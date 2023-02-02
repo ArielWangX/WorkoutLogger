@@ -7,6 +7,7 @@ import com.arielwang.workoutlogger.database.daos.ExerciseCardDao
 import com.arielwang.workoutlogger.database.daos.WorkoutDao
 import com.arielwang.workoutlogger.database.model.ExerciseCard
 import com.arielwang.workoutlogger.database.model.WorkoutData
+import javax.inject.Singleton
 
 const val DATABASE_VERSION = 5
 @Database(

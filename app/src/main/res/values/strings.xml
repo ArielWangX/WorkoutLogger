@@ -3,7 +3,7 @@
 
     <string name="LandingScreen_title">Current time is: %1$s</string>
     <string name="LandingScreen_buttonContent">Next Screen</string>
-    <string name="HomeScreen_defaultText">No Workout For Today</string>
+    <string name="HomeScreen_defaultText">Create First Workout!</string>
     <string name="HomeScreen_buttonContent">Create New Workout</string>
     <string name="ExerciseScreen_defaultText">Create Your First Exercise!</string>
     <string name="ExerciseScreen_buttonContent">Next</string>

@@ -38,7 +38,7 @@ fun HomeScreenConstraintLayout(
         HomeScreenContent(
             modifier = Modifier.constrainAs(text) {
                 top.linkTo(parent.top)
-                bottom.linkTo(parent.bottom)
+                bottom.linkTo(button.top)
                 start.linkTo(parent.start)
                 end.linkTo(parent.end)
             },

@@ -14,6 +14,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
+import androidx.constraintlayout.compose.Dimension
 import com.arielwang.workoutlogger.R
 import com.arielwang.workoutlogger.features.component.PrimaryButton
 import com.arielwang.workoutlogger.features.component.WorkoutLoggerScaffold
@@ -37,8 +38,7 @@ fun ExerciseScreen(
                     contentDescription = stringResource(id = R.string.ExerciseScreen_topbarAddIconButton)
                 )
             }
-        },
-        modifier = Modifier.systemBarsPadding()
+        }
     ) {
         ExerciseContentConstraintLayout(uiState = uiState, onAction = onAction)
     }
@@ -52,20 +52,32 @@ fun ExerciseContentConstraintLayout(
     ConstraintLayout(
         modifier = Modifier
             .fillMaxSize()
+            .systemBarsPadding()
             .padding(horizontal = 16.dp)
     ) {
-        val (button, cardListSection) = createRefs()
+        val (button, cardListSection, text) = createRefs()
 
-        ExerciseScreenContent(
-            uiState = uiState,
-            onAction = onAction,
-            modifier = Modifier.constrainAs(cardListSection) {
-                top.linkTo(parent.top)
-                bottom.linkTo(button.top)
-                start.linkTo(parent.start)
-                end.linkTo(parent.end)
-            }
-        )
+        if (uiState.cardList.isEmpty()) {
+            ExerciseScreenDefaultText(
+                modifier = Modifier.constrainAs(text) {
+                    top.linkTo(parent.top)
+                    bottom.linkTo(button.top)
+                    start.linkTo(parent.start)
+                    end.linkTo(parent.end)
+                }
+            )
+        } else {
+            ExerciseCardList(
+                modifier = Modifier.constrainAs(cardListSection) {
+                    linkTo(parent.top, button.top, bias = 0f)
+                    start.linkTo(parent.start)
+                    end.linkTo(parent.end)
+                    height = Dimension.fillToConstraints
+                },
+                uiState = uiState,
+                onAction = onAction
+            )
+        }
 
         PrimaryButton(
             modifier = Modifier.constrainAs(button) {
@@ -78,21 +90,13 @@ fun ExerciseContentConstraintLayout(
 }
 
 @Composable
-fun ExerciseScreenContent(
-    uiState: ExerciseView.State,
-    onAction: (ExerciseView.Action) -> Unit,
-    modifier: Modifier
-) {
-    if (uiState.cardList.isEmpty()) {
-        Text(
-            text = stringResource(id = R.string.ExerciseScreen_defaultText),
-            modifier = modifier,
-            style = MaterialTheme.typography.subtitle2,
-            color = MaterialTheme.colors.onSecondary
-        )
-    } else {
-        ExerciseCardList(uiState = uiState, onAction = onAction, modifier = modifier)
-    }
+fun ExerciseScreenDefaultText(modifier: Modifier) {
+    Text(
+        text = stringResource(id = R.string.ExerciseScreen_defaultText),
+        modifier = modifier,
+        style = MaterialTheme.typography.subtitle2,
+        color = MaterialTheme.colors.onSecondary
+    )
 }
 
 @Composable
@@ -104,10 +108,14 @@ fun ExerciseCardList(
     LazyColumn(
         modifier = modifier
     ) {
-        item { Spacer(modifier = Modifier.height(32.dp)) }
-
         uiState.cardList.forEach {
-            item { ExerciseCard(text = it.text, isSelected = it.isSelected, onAction = onAction) }
+            item {
+                ExerciseCard(
+                    text = it.text,
+                    isSelected = it.isSelected,
+                    onAction = onAction
+                )
+            }
         }
 
         item { Spacer(modifier = Modifier.height(24.dp)) }

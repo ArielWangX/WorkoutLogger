@@ -44,8 +44,7 @@ fun ExerciseCardScreen(
                     contentDescription = stringResource(id = R.string.ExerciseDetailScreen_topbarSaveIconButton)
                 )
             }
-        },
-        modifier = Modifier.systemBarsPadding()
+        }
     ) {
         ExerciseCardScreenConstraintLayout(uiState = uiState, onAction = onAction)
     }

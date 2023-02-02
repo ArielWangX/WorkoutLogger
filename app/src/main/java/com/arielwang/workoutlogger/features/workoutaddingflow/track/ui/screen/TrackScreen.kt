@@ -40,8 +40,7 @@ fun TrackScreen(
     WorkoutLoggerScaffold(
         title = R.string.TrackScreen_topbarTitle,
         iconContentDescription = R.string.TrackScreen_topbarIconButtonContentDescription,
-        onAction = { onAction(TrackView.Action.GoBackToPreviousPage) },
-        modifier = Modifier.systemBarsPadding()
+        onAction = { onAction(TrackView.Action.GoBackToPreviousPage) }
     ) {
         TrackScreenConstraintLayout(
             uiState = uiState,
@@ -61,6 +60,7 @@ fun TrackScreenConstraintLayout(
     ConstraintLayout(
         modifier = Modifier
             .fillMaxSize()
+            .systemBarsPadding()
             .padding(horizontal = 16.dp)
             .verticalScroll(rememberScrollState())
     ) {
