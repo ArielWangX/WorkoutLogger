@@ -7,6 +7,7 @@ import com.arielwang.workoutlogger.features.workoutaddingflow.track.domain.repos
 import com.arielwang.workoutlogger.features.workoutaddingflow.track.ui.screen.TrackView
 import com.arielwang.workoutlogger.features.workoutaddingflow.track.ui.screen.TrackViewModel
 import com.arielwang.workoutlogger.features.home.ui.screen.HomeDestination
+import com.arielwang.workoutlogger.features.workoutaddingflow.track.ui.screen.ShouldShowMaxCharAlert
 import com.arielwang.workoutlogger.navigate.FakeNavigationBehaviour
 import com.arielwang.workoutlogger.navigate.FakeNavigatorRule
 import com.arielwang.workoutlogger.testutils.CoroutineRule
@@ -27,13 +28,13 @@ class TrackViewModelTest {
     private val fakeNavigator = navigatorRule.navigator
 
     private val fakeTrackRepository = object : TrackRepository {
-        private var exercise: WorkoutData? = null
+        private var workoutData: WorkoutData? = null
 
         override suspend fun insertWorkout(workoutData: WorkoutData) {
-            this.exercise = workoutData
+            this.workoutData = workoutData
         }
 
-        fun getExercise(): WorkoutData { return checkNotNull(exercise) }
+        fun getWorkoutData(): WorkoutData { return checkNotNull(workoutData) }
     }
 
     private val fakeExerciseSharedStateManager = object : ExerciseTrackSharedStateManager {
@@ -47,10 +48,6 @@ class TrackViewModelTest {
 
         override fun getState(): WorkoutData {
             return checkNotNull(state)
-        }
-
-        override fun deleteState() {
-            state = null
         }
     }
 
@@ -71,7 +68,7 @@ class TrackViewModelTest {
                     secs = 0,
                     comment = ""
                 ),
-                fakeTrackRepository.getExercise()
+                fakeTrackRepository.getWorkoutData()
             )
 
             assertEquals(
@@ -95,8 +92,9 @@ class TrackViewModelTest {
         }
     }
 
+    // check setDefaultTextFieldValue function in weightSection TextFiled
     @Test
-    fun `When minus counter in weight section is clicked, the value of weightNumber in TrackView State minus 1`() {
+    fun `When weightSection TextField value is an empty string and minus counter in weight section is clicked, the value of weightNumber in TrackView State is 0`() {
         runTest {
             val viewModel = generateViewModel()
             val onMinusCounterClicked = TrackView.Action.OnMinusCounterClick(
@@ -106,15 +104,38 @@ class TrackViewModelTest {
 
             viewModel.uiState.test {
                 assertEquals(
-                    TrackView.State( weightNumber = "-1" ),
+                    TrackView.State( weightNumber = "0" ),
                     awaitItem()
                 )
             }
         }
     }
 
+    // The minimum value of weightSection TextFiled is 0
     @Test
-    fun `When minus counter in reps section is clicked, the value of repsNumber in TrackView State minus 1`() {
+    fun `When weightSection TextField value is 0 and minus counter in weight section is clicked, the value of weightNumber in TrackView State is 0`() {
+        runTest {
+            val viewModel = generateViewModel()
+            val onMinusCounterClicked = TrackView.Action.OnMinusCounterClick(
+                TrackViewModel.TrackTextFieldInWhichSection.WEIGHTTEXTFIELD
+            )
+            // First onMinusCounterClicked action will set default value of TextField as 0
+            viewModel.onUiAction(onMinusCounterClicked)
+            // Second onMinusCounterClicked action will calculate the math of 0 minus 1
+            viewModel.onUiAction(onMinusCounterClicked)
+
+            viewModel.uiState.test {
+                assertEquals(
+                    TrackView.State( weightNumber = "0" ),
+                    awaitItem()
+                )
+            }
+        }
+    }
+
+    // check setDefaultTextFieldValue function in repsSection TextFiled
+    @Test
+    fun `When repsSection TextField value is an empty string and minus counter in reps section is clicked, the value of repsNumber in TrackView State minus 0`() {
         runTest {
             val viewModel = generateViewModel()
             val onMinusCounterClicked = TrackView.Action.OnMinusCounterClick(
@@ -124,7 +145,30 @@ class TrackViewModelTest {
 
             viewModel.uiState.test {
                 assertEquals(
-                    TrackView.State( repsNumber = "-1" ),
+                    TrackView.State( repsNumber = "0" ),
+                    awaitItem()
+                )
+            }
+        }
+    }
+
+    // The minimum value of repsSection TextFiled is 0
+    @Test
+    fun `When repsSection TextField value is 0 and minus counter in reps section is clicked, the value of repsNumber in TrackView State minus 0`() {
+        runTest {
+            val viewModel = generateViewModel()
+            val onMinusCounterClicked = TrackView.Action.OnMinusCounterClick(
+                TrackViewModel.TrackTextFieldInWhichSection.REPSTEXTFIELD
+            )
+
+            // First onMinusCounterClicked action will set default value of TextField as 0
+            viewModel.onUiAction(onMinusCounterClicked)
+            // Second onMinusCounterClicked action will calculate the math of 0 minus 1
+            viewModel.onUiAction(onMinusCounterClicked)
+
+            viewModel.uiState.test {
+                assertEquals(
+                    TrackView.State( repsNumber = "0" ),
                     awaitItem()
                 )
             }
@@ -168,7 +212,7 @@ class TrackViewModelTest {
     }
 
     @Test
-    fun `When the value of TextFiled in weight section changes, update TrackView State weightNumber`() {
+    fun `When the value of TextFiled in weightSection changes, update TrackView State weightNumber`() {
         runTest {
             val viewModel = generateViewModel()
             val onTextFieldValueChange = TrackView.Action.OnTextFieldValueChangeWeightNumber("6")
@@ -176,7 +220,35 @@ class TrackViewModelTest {
 
             viewModel.uiState.test {
                 assertEquals(
-                    TrackView.State( weightNumber = "6" ),
+                    TrackView.State(
+                        weightNumber = "6",
+                        shouldShowMaxCharAlert = ShouldShowMaxCharAlert(
+                            maxChar = 3
+                        )
+                    ),
+                    awaitItem()
+                )
+            }
+        }
+    }
+
+    // Check maximum input number of characters in weightSection TextField
+    @Test
+    fun `Maximum input number of characters in weightSection TextField is 3`() {
+        runTest {
+            val viewModel = generateViewModel()
+            val onTextFieldValueChange = TrackView.Action.OnTextFieldValueChangeWeightNumber("6789")
+            viewModel.onUiAction(onTextFieldValueChange)
+
+            viewModel.uiState.test {
+                assertEquals(
+                    TrackView.State(
+                        weightNumber = "678",
+                        shouldShowMaxCharAlert = ShouldShowMaxCharAlert(
+                            shouldShow = true,
+                            maxChar = 3
+                        )
+                    ),
                     awaitItem()
                 )
             }
@@ -184,7 +256,7 @@ class TrackViewModelTest {
     }
 
     @Test
-    fun `When the value of TextFiled in reps section changes, update TrackView State repsNumber`() {
+    fun `When the value of TextFiled in repsSection changes, update TrackView State repsNumber`() {
         runTest {
             val viewModel = generateViewModel()
             val onTextFieldValueChange = TrackView.Action.OnTextFieldValueChangeRepsNumber("2")
@@ -192,7 +264,35 @@ class TrackViewModelTest {
 
             viewModel.uiState.test {
                 assertEquals(
-                    TrackView.State( repsNumber = "2" ),
+                    TrackView.State(
+                        repsNumber = "2",
+                        shouldShowMaxCharAlert = ShouldShowMaxCharAlert(
+                            maxChar = 4
+                        )
+                    ),
+                    awaitItem()
+                )
+            }
+        }
+    }
+
+    // Check maximum input number of characters in repsSection TextField
+    @Test
+    fun `Maximum input number of characters in repsSection TextField is 4`() {
+        runTest {
+            val viewModel = generateViewModel()
+            val onTextFieldValueChange = TrackView.Action.OnTextFieldValueChangeRepsNumber("22345")
+            viewModel.onUiAction(onTextFieldValueChange)
+
+            viewModel.uiState.test {
+                assertEquals(
+                    TrackView.State(
+                        repsNumber = "2234",
+                        shouldShowMaxCharAlert = ShouldShowMaxCharAlert(
+                            shouldShow = true,
+                            maxChar = 4
+                        )
+                    ),
                     awaitItem()
                 )
             }
@@ -200,7 +300,7 @@ class TrackViewModelTest {
     }
 
     @Test
-    fun `When the value of hours TextFiled in time section changes, update TrackView State hours`() {
+    fun `When the value of hours TextFiled in timeSection changes, update TrackView State hours`() {
         runTest {
             val viewModel = generateViewModel()
             val onTextFieldValueChange = TrackView.Action.OnTextFieldValueChangeHours("1")
@@ -208,7 +308,35 @@ class TrackViewModelTest {
 
             viewModel.uiState.test {
                 assertEquals(
-                    TrackView.State( hours = "1" ),
+                    TrackView.State(
+                        hours = "1",
+                        shouldShowMaxCharAlert = ShouldShowMaxCharAlert(
+                            maxChar = 2
+                        )
+                    ),
+                    awaitItem()
+                )
+            }
+        }
+    }
+
+    // Check maximum input number of characters in hours TextField
+    @Test
+    fun `Maximum input number of characters in hours TextField of timeSection is 2`() {
+        runTest {
+            val viewModel = generateViewModel()
+            val onTextFieldValueChange = TrackView.Action.OnTextFieldValueChangeHours("102")
+            viewModel.onUiAction(onTextFieldValueChange)
+
+            viewModel.uiState.test {
+                assertEquals(
+                    TrackView.State(
+                        hours = "10",
+                        shouldShowMaxCharAlert = ShouldShowMaxCharAlert(
+                            shouldShow = true,
+                            maxChar = 2
+                        )
+                    ),
                     awaitItem()
                 )
             }
@@ -216,7 +344,7 @@ class TrackViewModelTest {
     }
 
     @Test
-    fun `When the value of minutes TextFiled in time section changes, update TrackView State minutes`() {
+    fun `When the value of minutes TextFiled in timeSection changes, update TrackView State minutes`() {
         runTest {
             val viewModel = generateViewModel()
             val onTextFieldValueChange = TrackView.Action.OnTextFieldValueChangeMinutes("32")
@@ -224,7 +352,35 @@ class TrackViewModelTest {
 
             viewModel.uiState.test {
                 assertEquals(
-                    TrackView.State( minutes = "32" ),
+                    TrackView.State(
+                        minutes = "32",
+                        shouldShowMaxCharAlert = ShouldShowMaxCharAlert(
+                            maxChar = 2
+                        )
+                    ),
+                    awaitItem()
+                )
+            }
+        }
+    }
+
+    // Check maximum input number of characters in minutes TextField
+    @Test
+    fun `Maximum input number of characters in minutes TextField of timeSection is 2`() {
+        runTest {
+            val viewModel = generateViewModel()
+            val onTextFieldValueChange = TrackView.Action.OnTextFieldValueChangeMinutes("324")
+            viewModel.onUiAction(onTextFieldValueChange)
+
+            viewModel.uiState.test {
+                assertEquals(
+                    TrackView.State(
+                        minutes = "32",
+                        shouldShowMaxCharAlert = ShouldShowMaxCharAlert(
+                            shouldShow = true,
+                            maxChar = 2
+                        )
+                    ),
                     awaitItem()
                 )
             }
@@ -240,7 +396,35 @@ class TrackViewModelTest {
 
             viewModel.uiState.test {
                 assertEquals(
-                    TrackView.State( seconds = "28" ),
+                    TrackView.State(
+                        seconds = "28",
+                        shouldShowMaxCharAlert = ShouldShowMaxCharAlert(
+                            maxChar = 2
+                        )
+                    ),
+                    awaitItem()
+                )
+            }
+        }
+    }
+
+    // Check maximum input number of characters in seconds TextField
+    @Test
+    fun `Maximum input number of characters in seconds TextField of timeSection is 2`() {
+        runTest {
+            val viewModel = generateViewModel()
+            val onTextFieldValueChange = TrackView.Action.OnTextFieldValueChangeSeconds("289")
+            viewModel.onUiAction(onTextFieldValueChange)
+
+            viewModel.uiState.test {
+                assertEquals(
+                    TrackView.State(
+                        seconds = "28",
+                        shouldShowMaxCharAlert = ShouldShowMaxCharAlert(
+                            shouldShow = true,
+                            maxChar = 2
+                        )
+                    ),
                     awaitItem()
                 )
             }
@@ -273,6 +457,25 @@ class TrackViewModelTest {
             viewModel.uiState.test {
                 assertEquals(
                     TrackView.State( commentText = "" ),
+                    awaitItem()
+                )
+            }
+        }
+    }
+
+    @Test
+    fun changeShouldShowMaxCharState() {
+        runTest {
+            val viewModel = generateViewModel()
+            val changeShouldShowMaxCharState = TrackView.Action.ChangeShouldShowMaxCharState( shouldShow = false)
+
+            viewModel.onUiAction(changeShouldShowMaxCharState)
+
+            viewModel.uiState.test {
+                assertEquals(
+                    TrackView.State(
+                        shouldShowMaxCharAlert = ShouldShowMaxCharAlert( shouldShow = false )
+                    ),
                     awaitItem()
                 )
             }

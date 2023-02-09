@@ -1,7 +1,10 @@
 package com.arielwang.workoutlogger.exercise
 
 import app.cash.turbine.test
+import com.arielwang.workoutlogger.database.model.ExerciseCard
 import com.arielwang.workoutlogger.database.model.WorkoutData
+import com.arielwang.workoutlogger.features.exercisecard.ui.ExerciseCardDestination
+import com.arielwang.workoutlogger.features.workoutaddingflow.exercise.domain.ExerciseRepository
 import com.arielwang.workoutlogger.features.workoutaddingflow.exercise.ui.screen.Card
 import com.arielwang.workoutlogger.features.workoutaddingflow.exercise.ui.screen.ExerciseView
 import com.arielwang.workoutlogger.features.workoutaddingflow.exercise.ui.screen.ExerciseViewModel
@@ -11,6 +14,8 @@ import com.arielwang.workoutlogger.navigate.FakeNavigationBehaviour
 import com.arielwang.workoutlogger.navigate.FakeNavigatorRule
 import com.arielwang.workoutlogger.testutils.CoroutineRule
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.test.runTest
 import org.junit.Rule
 import org.junit.Test
@@ -25,6 +30,19 @@ class ExerciseViewModelTest {
     val coroutineRule = CoroutineRule()
 
     private val fakeNavigator = navigatorRule.navigator
+    private val fakeExerciseRepository = object : ExerciseRepository {
+        override suspend fun getAllExerciseCards(): List<ExerciseCard> {
+            TODO("Not yet implemented")
+        }
+
+        override fun getAllExerciseCardsFlow(): Flow<List<ExerciseCard>> = MutableStateFlow(
+            listOf(
+                ExerciseCard(name = "abs"),
+                ExerciseCard(name = "Back"),
+                ExerciseCard(name = "Biceps")
+            )
+        )
+    }
     private val fakeExerciseSharedStateManager = object : ExerciseTrackSharedStateManager {
         private var state: WorkoutData? = null
 
@@ -33,8 +51,6 @@ class ExerciseViewModelTest {
         }
 
         override fun getState(): WorkoutData { return checkNotNull(state) }
-
-        override fun deleteState() { state = null }
     }
 
     @Test
@@ -48,19 +64,7 @@ class ExerciseViewModelTest {
                         cardList = listOf(
                             Card("abs"),
                             Card("Back"),
-                            Card("Biceps"),
-                            Card("Cardio"),
-                            Card("Chest"),
-                            Card("sdf"),
-                            Card("werfwec"),
-                            Card("sdfs"),
-                            Card("efw"),
-                            Card("ef"),
-                            Card("srfgs"),
-                            Card("hgf"),
-                            Card("ert"),
-                            Card("g"),
-                            Card("ert")
+                            Card("Biceps")
                         )
                     ),
                     awaitItem()
@@ -117,19 +121,7 @@ class ExerciseViewModelTest {
                         cardList = listOf(
                             Card("abs", isSelected = true),
                             Card("Back"),
-                            Card("Biceps"),
-                            Card("Cardio"),
-                            Card("Chest"),
-                            Card("sdf"),
-                            Card("werfwec"),
-                            Card("sdfs"),
-                            Card("efw"),
-                            Card("ef"),
-                            Card("srfgs"),
-                            Card("hgf"),
-                            Card("ert"),
-                            Card("g"),
-                            Card("ert")
+                            Card("Biceps")
                         )
                     ),
                     awaitItem()
@@ -138,6 +130,21 @@ class ExerciseViewModelTest {
         }
     }
 
+    @Test
+    fun `When topbar add button is clicked, go to ExerciseCard Screen`() {
+        runTest {
+            val viewModel = generateViewModel()
+            val createNewExerciseCard = ExerciseView.Action.AddExerciseCard
 
-    private fun generateViewModel() = ExerciseViewModel(fakeNavigator, fakeExerciseSharedStateManager)
+            viewModel.onUiAction(createNewExerciseCard)
+
+            assertEquals(
+                FakeNavigationBehaviour.Navigate(ExerciseCardDestination.route()),
+                fakeNavigator.awaitNextScreen()
+            )
+
+        }
+    }
+
+    private fun generateViewModel() = ExerciseViewModel(fakeNavigator, fakeExerciseRepository, fakeExerciseSharedStateManager)
 }

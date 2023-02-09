@@ -42,7 +42,9 @@ class HomeViewModelTest {
     @Test
     fun `init state is expected`() {
         runTest {
-            generateViewModel().uiState.test {
+            val viewModel = generateViewModel()
+
+            viewModel.uiState.test {
                 assertEquals(
                     HomeView.State(
                         workout = listOf(
