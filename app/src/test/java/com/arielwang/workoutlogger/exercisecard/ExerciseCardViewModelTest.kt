@@ -24,14 +24,14 @@ class ExerciseCardViewModelTest {
 
     private val fakeNavigator = navigatorRule.navigator
     private val fakeExerciseCardRepository = object : ExerciseCardRepository {
-        private var storingExerciseCard = ExerciseCard()
+        private var storedExerciseCard = ExerciseCard()
 
         override suspend fun insertExerciseCard(exerciseCard: ExerciseCard) {
-            storingExerciseCard = ExerciseCard(name = exerciseCard.name, note = exerciseCard.note)
+            storedExerciseCard = ExerciseCard(name = exerciseCard.name, note = exerciseCard.note)
         }
 
         fun getExerciseCard(): ExerciseCard {
-            return storingExerciseCard
+            return storedExerciseCard
         }
 
         override suspend fun updateExerciseCard(exerciseCard: ExerciseCard) {
@@ -135,9 +135,8 @@ class ExerciseCardViewModelTest {
         }
     }
 
-    // when saved button is clicked, insert exercise card data into database and go back to Exercise screen
     @Test
-    fun saveNewExerciseCard() {
+    fun `when saved button is clicked, insert exercise card data into database and go back to Exercise screen`() {
         runTest {
             val viewModel = generateViewModel()
             val onSaveButtonClicked = ExerciseCardView.Action.SaveNewCard

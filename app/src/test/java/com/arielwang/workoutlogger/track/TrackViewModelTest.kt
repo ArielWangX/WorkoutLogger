@@ -92,7 +92,6 @@ class TrackViewModelTest {
         }
     }
 
-    // check setDefaultTextFieldValue function in weightSection TextFiled
     @Test
     fun `When weightSection TextField value is an empty string and minus counter in weight section is clicked, the value of weightNumber in TrackView State is 0`() {
         runTest {
@@ -232,9 +231,8 @@ class TrackViewModelTest {
         }
     }
 
-    // Check maximum input number of characters in weightSection TextField
     @Test
-    fun `Maximum input number of characters in weightSection TextField is 3`() {
+    fun `Check maximum input number of characters in weightSection TextField is 3`() {
         runTest {
             val viewModel = generateViewModel()
             val onTextFieldValueChange = TrackView.Action.OnTextFieldValueChangeWeightNumber("6789")
@@ -276,9 +274,8 @@ class TrackViewModelTest {
         }
     }
 
-    // Check maximum input number of characters in repsSection TextField
     @Test
-    fun `Maximum input number of characters in repsSection TextField is 4`() {
+    fun `Check maximum input number of characters in repsSection TextField is 4`() {
         runTest {
             val viewModel = generateViewModel()
             val onTextFieldValueChange = TrackView.Action.OnTextFieldValueChangeRepsNumber("22345")
@@ -320,9 +317,8 @@ class TrackViewModelTest {
         }
     }
 
-    // Check maximum input number of characters in hours TextField
     @Test
-    fun `Maximum input number of characters in hours TextField of timeSection is 2`() {
+    fun `Check maximum input number of characters in hours TextField is 2`() {
         runTest {
             val viewModel = generateViewModel()
             val onTextFieldValueChange = TrackView.Action.OnTextFieldValueChangeHours("102")
@@ -364,9 +360,8 @@ class TrackViewModelTest {
         }
     }
 
-    // Check maximum input number of characters in minutes TextField
     @Test
-    fun `Maximum input number of characters in minutes TextField of timeSection is 2`() {
+    fun `Check maximum input number of characters in minutes TextField is 2`() {
         runTest {
             val viewModel = generateViewModel()
             val onTextFieldValueChange = TrackView.Action.OnTextFieldValueChangeMinutes("324")
@@ -408,9 +403,8 @@ class TrackViewModelTest {
         }
     }
 
-    // Check maximum input number of characters in seconds TextField
     @Test
-    fun `Maximum input number of characters in seconds TextField of timeSection is 2`() {
+    fun `Check maximum input number of characters in seconds TextField is 2`() {
         runTest {
             val viewModel = generateViewModel()
             val onTextFieldValueChange = TrackView.Action.OnTextFieldValueChangeSeconds("289")
