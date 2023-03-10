@@ -8,12 +8,14 @@ import com.arielwang.workoutlogger.navigate.Navigator
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 object HomeView {
     data class State(
-        val workoutForToday : Boolean = false,
+        val workoutForToday: Boolean = false,
         val workout: List<String> = emptyList()
     )
 
@@ -34,20 +36,21 @@ class HomeViewModel @Inject constructor(
     val uiState: StateFlow<HomeView.State> = _uiState
 
     init {
-        viewModelScope.launch {
-            val workoutDataList = homeRepository.getAllWorkoutData()
-            val workoutDataString = workoutDataList.map {
-                "${it.type} \n" +
-                "${it.weight}, ${it.reps}\n ${it.hours}h ${it.mins}min ${it.secs}secs \n ${it.comment}"
-            }
+        homeRepository.getAllWorkoutDataFlow()
+            .onEach { workoutDataList ->
+                viewState = viewState.copy(
+                    workout = workoutDataList.map {
+                        "${it.type} \n" +
+                                "${it.weight}, ${it.reps}\n ${it.hours}h ${it.mins}min ${it.secs}secs \n ${it.comment}"
 
-            viewState = viewState.copy(workout = workoutDataString)
-            emitViewState()
-        }
+                    }
+                )
+                emitViewState()
+            }.launchIn(viewModelScope)
     }
 
     fun onUiAction(action: HomeView.Action) {
-        when(action) {
+        when (action) {
             HomeView.Action.GoToNextPage -> navigator.navigate(ExerciseDestination.route())
         }
     }
