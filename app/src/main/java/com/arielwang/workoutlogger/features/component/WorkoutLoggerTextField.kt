@@ -49,6 +49,7 @@ fun WorkoutLoggerTextField(
         onValueChange = onValueChange,
         colors = TextFieldDefaults
             .textFieldColors(
+                textColor = MaterialTheme.colors.secondary,
                 backgroundColor = MaterialTheme.colors.background,
                 focusedIndicatorColor = Color.Transparent,
                 unfocusedIndicatorColor = Color.Transparent,
@@ -67,7 +68,8 @@ fun WorkoutLoggerTextField(
                         IconButton(onClick = onAction) {
                             Icon(
                                 imageVector = ImageVector.vectorResource(id = R.drawable.ic_baseline_close_24),
-                                contentDescription = stringResource(id = R.string.TrackScreen_commentSectionIconDescription)
+                                contentDescription = stringResource(id = R.string.TrackScreen_commentSectionIconDescription),
+                                tint = MaterialTheme.colors.primaryVariant
                             )
                         }
                     }
@@ -77,6 +79,7 @@ fun WorkoutLoggerTextField(
         placeholder = {
             Text(
                 text = placeHolderText,
+                color = MaterialTheme.colors.secondaryVariant,
                 textAlign = TextAlign.Center,
                 modifier = Modifier.fillMaxWidth()
             )

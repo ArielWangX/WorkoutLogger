@@ -22,10 +22,10 @@ fun SectionTitle(
     ) {
         Text(
             text = text,
-            color = MaterialTheme.colors.primaryVariant
+            color = MaterialTheme.colors.secondary
         )
         Spacer(modifier = Modifier.padding(vertical = 5.dp))
-        Divider(color = MaterialTheme.colors.primaryVariant, thickness = 2.dp)
+        Divider(color = MaterialTheme.colors.secondaryVariant, thickness = 2.dp)
 
         Spacer(modifier = Modifier.padding(vertical = 8.dp))
 

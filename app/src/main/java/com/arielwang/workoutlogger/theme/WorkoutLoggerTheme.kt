@@ -8,12 +8,16 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
 
 private val LightColors = lightColors(
-  primary = Blue700,  // Theme color
-  primaryVariant = LightGrey700,
-  onPrimary = Color.White,  // text color
-  secondary = Green700, // accent color
-  secondaryVariant = Red900,
-  onSecondary = Black500,
+  primary = Orange500,  // Theme color
+  primaryVariant = Green200,
+  onPrimary = Grey300,  // Container color
+  secondary = Grey800,  // Icon and Text color
+  secondaryVariant = Grey600,
+//  onSecondary = Grey400,
+  surface= Grey50,  // Card
+  background= Color.White,
+  onBackground = Blue500,  // highlight
+  onSurface= Green100,
   error = Red800
 )
 

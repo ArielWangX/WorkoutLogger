@@ -30,7 +30,7 @@ fun WorkoutLoggerScaffold(
                     }
                 },
                 actions = actions,
-                backgroundColor = MaterialTheme.colors.onPrimary,
+                backgroundColor = MaterialTheme.colors.background,
                 contentColor = MaterialTheme.colors.onSecondary,
                 elevation = 8.dp
             )
