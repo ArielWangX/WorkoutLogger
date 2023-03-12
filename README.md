@@ -6,15 +6,18 @@
 ### Phase 1 UI Workflow
 Find full UI design on figma [WorkoutLogger_Phase_1_UI](https://www.figma.com/file/JDdrY8xQiJjWFTdvvgIP5A/workoutLogger-wireFrame?node-id=0%3A1&t=Nq5rzM9qMNnP4mqu-1)  
 
-![Phase1_UI](https://user-images.githubusercontent.com/109891752/217417997-7f0049cf-c507-4423-82e3-e5100d8aaa03.JPG)
+![Phase_1_UI](https://user-images.githubusercontent.com/109891752/224524490-e556c5d0-03d2-4232-9273-8bbf09aef3f2.JPG)
 
 ### Phase 1 App Screen Record
  - Adding New Exercise Card
 
-https://user-images.githubusercontent.com/109891752/224514670-c4f6cbc2-8aed-4129-964d-555fa812815c.mp4
+https://user-images.githubusercontent.com/109891752/224524500-a97dc478-6d17-463a-9857-559002f5f58f.mp4
+
 
 <br/><br/>
  - Adding New Workout
 
-https://user-images.githubusercontent.com/109891752/224514755-4d3d9544-5927-460b-a6f5-f1439bd63bf9.mp4
+https://user-images.githubusercontent.com/109891752/224524504-0172ce2e-46f8-4faa-9ab1-34f0a550a275.mp4
+
+
 
