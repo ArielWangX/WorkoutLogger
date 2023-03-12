@@ -95,7 +95,7 @@ fun DisplayExerciseCard(
     text: String
 ) {
     Card(
-        backgroundColor = MaterialTheme.colors.onPrimary,
+        backgroundColor = MaterialTheme.colors.surface,
         shape = MaterialTheme.shapes.large,
         modifier = Modifier
             .padding(vertical = 16.dp)
@@ -103,7 +103,7 @@ fun DisplayExerciseCard(
     ) {
         Text(
             text = text,
-            color = MaterialTheme.colors.onSecondary,
+            color = MaterialTheme.colors.secondary,
             style = MaterialTheme.typography.h6,
             modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp)
         )

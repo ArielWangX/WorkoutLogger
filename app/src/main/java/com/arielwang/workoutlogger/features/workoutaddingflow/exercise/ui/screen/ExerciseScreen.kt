@@ -132,11 +132,11 @@ fun ExerciseCard(
         border = BorderStroke(
             2.dp,
             if (isSelected)
-                MaterialTheme.colors.secondary
-            else
                 MaterialTheme.colors.primaryVariant
+            else
+                MaterialTheme.colors.surface
         ),
-        backgroundColor = MaterialTheme.colors.onPrimary,
+        backgroundColor = MaterialTheme.colors.surface,
         shape = MaterialTheme.shapes.large,
         modifier = Modifier
             .padding(vertical = 16.dp)
@@ -151,7 +151,7 @@ fun ExerciseCard(
         ) {
             Text(
                 text = text,
-                color = MaterialTheme.colors.onSecondary,
+                color = MaterialTheme.colors.secondary,
                 style = MaterialTheme.typography.h6,
                 modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp)
             )
@@ -161,7 +161,7 @@ fun ExerciseCard(
             if (isSelected) {
                 Icon(
                     imageVector = Icons.Default.Check,
-                    tint = MaterialTheme.colors.secondary,
+                    tint = MaterialTheme.colors.primaryVariant,
                     contentDescription = null
                 )
             }
